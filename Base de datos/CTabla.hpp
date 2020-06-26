@@ -77,7 +77,7 @@ public:
 			if (tipoFiltro >= 1 && tipoFiltro <= 9)break;
 		}
 		cout << "Filtrar por...\n";
-		if (tipoFiltro <= 1 && tipoFiltro <= 7) {
+		if (tipoFiltro >= 1 && tipoFiltro <= 7) {
 			if (tipoFiltro == 1)cout << "valores mayores que: ";
 			if (tipoFiltro == 2)cout << "valores menores que: ";
 			if (tipoFiltro == 3)cout << "valores iguales a: ";
