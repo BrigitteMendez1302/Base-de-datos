@@ -31,11 +31,15 @@ private:
 class DataBase {
 private:
 	vector<CTabla*> tablas;
+	CTabla* tablaauxiliar;
 	int cantidaddetablas;
 public:
 	void agregartabla(string nombre) {
 		tablas.push_back(new CTabla(nombre));
 		++cantidaddetablas;
+	}
+	void igualartabla(CTabla* antigua){
+		this->tablaauxiliar = antigua;
 	}
 	CTabla* gettablainpos(int pos) {
 		return tablas.at(pos);

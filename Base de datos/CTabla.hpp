@@ -7,7 +7,6 @@
 using namespace std;
 class CTabla {
 	int cantidaddecolumnas;
-	int ncol;
 	vector<vector<string>*>* datosdelatabla;
 	CArbolbb<vector<string>*>* abbF;
 	vector<CColumna*>columnas;//**
@@ -16,6 +15,10 @@ public:
 	void agregarcolumna(int mitipodedato, string nombre) {
 		columnas.push_back(new CColumna(mitipodedato, nombre));
 		cantidaddecolumnas++;
+	}
+	void traspasarcolumna(CColumna* antigua) {
+		CColumna* nueva = antigua;
+		columnas.push_back(nueva);
 	}
 	string getnombredelatabla() {
 		return this->nombredelatabla;
@@ -32,13 +35,35 @@ public:
 	int getcantidaddecolumnas() {
 		return this->cantidaddecolumnas;
 	}
-	void indexar() {
-		auto compvalores = [=](vector<string>* a, vector<string>* b)->bool {
-			return (a->at(ncol).compare(b->at(ncol)))<0;
-		};
+	int to_int(string dato) {
+		return atoi(dato.c_str());
+	}
+	long long to_longlong(string dato) {
+		return atoll(dato.c_str());
+	}
+	bool to_bool(string dato) {
+		return (bool)atoi(dato.c_str());
+	}
+	char to_char(string dato) {
+		return dato.at(0);
+	}
+	void indexar(int ncol) {
+		int tipodedato = columnas.at(ncol)->getmitipodedato();
 		vector<string>* fila;
 		cout << "Cantidad de datos de la columna : " << columnas.at(0)->misdatos->size() << endl;
 		cout << "Cantidad de columnas : " << columnas.size() << endl;
+		auto compints = [=](vector<string>* a, vector<string>* b)->bool {
+			return to_int(a->at(ncol)) < to_int(b->at(ncol));
+		};
+		auto complongs = [=](vector<string>* a, vector<string>* b)->bool {
+				return to_longlong(a->at(ncol)) < to_longlong(b->at(ncol));
+		};
+		auto compchars = [=](vector<string>* a, vector<string>* b)->bool {
+				return to_char(a->at(0)) < to_char(b->at(0));
+		};
+		auto compvalores = [=](vector<string>* a, vector<string>* b)->bool {
+				return (a->at(ncol).compare(b->at(ncol))) < 0;
+		};
 		for (short i = 0; i < columnas.at(0)->misdatos->size(); i++)
 		{
 			fila = new vector<string>;
@@ -49,11 +74,23 @@ public:
 			cout << endl;
 			vector<string>* memoria = new vector<string>(*fila);
 			datosdelatabla->push_back(memoria);
-			abbF->insertar(memoria, compvalores);
+			if (tipodedato == 1 || tipodedato == 2 || tipodedato == 3 || tipodedato == 4) {
+				abbF->insertar(memoria, compints);
+			}
+			if (tipodedato == 5) {
+				abbF->insertar(memoria, complongs);
+			}
+			if (tipodedato == 6) {
+				abbF->insertar(memoria, compchars);
+			}
+			if (tipodedato == 7 || tipodedato == 8 || tipodedato == 9 || tipodedato == 10) {
+				abbF->insertar(memoria, compvalores);
+			}
 			fila->clear(); delete fila;
 		}
 
 	}
+
 	void mostrarregistros() {
 		for (short i = 0; i < columnas.size(); i++)
 		{
@@ -66,9 +103,8 @@ public:
 			}
 			cout << endl;
 		}
-		cout << datosdelatabla->at(0)->at(0);
-		cout << "tamaño de la tabla (filas) " << datosdelatabla->size() << endl;
-		cout << "tamaño de la tabla (columnas) " << datosdelatabla->at(0)->size() << endl;
+		cout << "Tamaño de la tabla (filas) " << datosdelatabla->size() << endl;
+		cout << "Tamaño de la tabla (columnas) " << datosdelatabla->at(0)->size() << endl;
 	}
 	void borrararbol() {
 		abbF->borrar_todo();
@@ -78,12 +114,13 @@ public:
 		string valor = "";
 		while (true)
 		{
-			cout << "digite la columna que quiere filtrar"; cin >> nColumna;
+			cout << "Digite la columna que quiere filtrar"; cin >> nColumna;
 			if (nColumna >= 0 && nColumna <= getcantidaddecolumnas())break;
 		}
+		indexar(nColumna);
 		while (true)
 		{
-			cout << "digite el tipo de filtrado"; cin >> tipoFiltro;
+			cout << "Digite el tipo de filtrado"; cin >> tipoFiltro;
 			if (tipoFiltro >= 1 && tipoFiltro <= 9)break;
 		}
 		cout << "Filtrar por...\n";
@@ -163,12 +200,12 @@ public:
 		default:
 			break;
 		}
+
 	}
 	CTabla(string nombre) {
 		this->cantidaddecolumnas = 0;
 		datosdelatabla = new  vector<vector<string>*>();
 		abbF = new CArbolbb<vector<string>*>();
-		this->ncol = 0;
 		this->nombredelatabla = nombre;
 	}
 	~CTabla() {

@@ -37,18 +37,6 @@ public:
 	int getcant() {
 		return this->cant;
 	}
-	int to_int(string dato) {
-		return atoi(dato.c_str());
-	}
-	long long to_longlong(string dato) {
-		return atoll(dato.c_str());
-	}
-	bool to_bool(string dato) {
-		return (bool)atoi(dato.c_str());
-	}
-	char to_char(string dato) {
-		return dato.at(0);
-	}
 	vector<string>* getmisdatos() {
 		return this->misdatos;
 	}

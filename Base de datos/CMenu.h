@@ -138,7 +138,7 @@ private:
 		system("cls");
 		if (n-1 >= 0 && n-1 <= basededatos->gettablainpos(n-1)->getcantidaddecolumnas()) {
 			cout << basededatos->gettablainpos(n-1)->getnombredelatabla() << endl;
-			basededatos->gettablainpos(n - 1)->indexar();
+			basededatos->gettablainpos(n - 1)->indexar(0);
 			basededatos->gettablainpos(n-1)->mostrarregistros();
 			cout << endl;
 		}
