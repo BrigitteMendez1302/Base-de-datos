@@ -3,12 +3,15 @@
 #include<iostream>
 #include<string>
 #include<functional>
+#include "CBasededatos.hpp"
 using namespace std;
 class CMenu
 {
 public:
 	CMenu() {
+		basededatos = new DataBase();
 		main();
+		setlocale(LC_ALL, "Spanish");
 	}
 	~CMenu() {}
 
@@ -44,6 +47,8 @@ public:
 	}
 
 private:
+	DataBase *basededatos;
+	string paracolumna;
 	//Fase 1
 
 	void agregar_Nueva_Tabla() {
@@ -52,10 +57,8 @@ private:
 		string nombre = "";
 		cout << "Ingrese el nombre de esta nueva tabla:\n";
 		cin >> nombre;
+		basededatos->agregartabla(nombre);
 		cout << "Creando tabla...\n\n";
-		_sleep(3000);
-
-		//aqui va todo lo que se necesita para crear una tabla
 		cout << "Tabla creado con exito.\n\n";
 		char opcion = ' ';
 		cout << "Presione B para regresar...\n";
@@ -67,12 +70,13 @@ private:
 		main();
 	}
 
-	void visualizar_Alguna_Tabla() {
+	void visualizar_Alguna_Tabla() {//mejorar porque estamos limitados a 3 tablas
 		system("cls");
 		cout << "\n\t\tVisualizar alguna tabla\n\n";
-		cout << "1) Primera tabla que creó\n";
-		cout << "2) Segunda tabla que creó\n";
-		cout << "3) Tercera tabla que creó\n\n";
+		for (short i = 0; i < basededatos->getcantidaddetablas(); i++)
+		{
+			cout << i+1 << ") Tabla "<<i+1 << "\n";
+		}
 		cout << "Ingrese el número de tabla que desea ver o\n";
 		cout << "Presione B para regresar...\n";
 		char opcion = ' ';
@@ -100,6 +104,8 @@ private:
 		cout << "1) Modificar tabla\n";
 		cout << "2) Filtrar tabla\n";
 		cout << "3) Mandar el registro a un archivo plano\n";
+		cout << "Presione B para regresar...\n";
+
 		char opcion = ' ';
 		while (true)
 		{
@@ -111,7 +117,7 @@ private:
 		case '1':	modificar_Alguna_Tabla(); break;
 		case '2':	filtrar_Alguna_Tabla(); break;
 		case '3':	mandar_El_Regitro_A_Un_Archivo_Plano(); break;
-		case 'B' || 'b':
+		case 'B' || 'b': 
 			break;
 		default:
 			break;
@@ -130,6 +136,13 @@ private:
 
 	void visualizar_Tabla(short n) {
 		system("cls");
+		if (n-1 >= 0 && n-1 <= basededatos->gettablainpos(n-1)->getcantidaddecolumnas()) {
+			cout << basededatos->gettablainpos(n-1)->getnombredelatabla() << endl;
+			basededatos->gettablainpos(n - 1)->indexar();
+			basededatos->gettablainpos(n-1)->mostrarregistros();
+			cout << endl;
+		}
+
 		//crear un objeto tabla dinamica...
 		//Ctabla* nuevo;
 		//inicializar objeto tabla dinamica..
@@ -149,7 +162,7 @@ private:
 	void modificar_Alguna_Tabla() {
 		system("cls");
 		cout << "\n\t\tModificar tabla\n\n";
-		cout << "Qué tabla desea modifcar?\n\n";
+		cout << "Qué tabla desea modificar?\n\n";
 		cout << "1) Primera tabla que creó\n";
 		cout << "2) Segunda tabla que creó\n";
 		cout << "3) Tercera tabla que creó\n\n";
@@ -224,13 +237,15 @@ private:
 
 	//Fse 3
 
-	void modificar_Tabla(short n = 0) {
+	void modificar_Tabla(short n) {
 		system("cls");
+		/*this->tablaconmodificaciones=this->basededatos->gettablainpos(n-1);*/
 		//crear un objeto tabla dinamica...
 		//Ctabla* nuevo;
 		//inicializar objeto tabla dinamica..
 		//nuevo= obtener_tabla(n);
 		//cout<<nuevo->getNombre();
+		cout << this->basededatos->gettablainpos(n - 1)->getnombredelatabla() << endl;
 		cout << "1) Agregar columna a la tabla\n";
 		cout << "2) Agregar fila o nuevo registro a la tabla\n\n";
 		cout << "Ingrese el número de la opcion quec desee ejecutar o\n";
@@ -243,8 +258,8 @@ private:
 		}
 		switch (opcion)
 		{
-		case '1':	agregar_Columna(); break;//modificar para pasar referencia a tabla
-		case '2':	agregar_Fila_O_Registro(); break;//modificar para pasar referencia a tabla
+		case '1':	agregar_Columna(n); break;//modificar para pasar referencia a tabla
+		case '2':	agregar_Fila_O_Registro(n); break;//modificar para pasar referencia a tabla
 		case 'B' || 'b':
 			break;
 		default:
@@ -296,7 +311,7 @@ private:
 
 	//Fase 4
 
-	void agregar_Columna() {
+	void agregar_Columna(int n) {
 		system("cls");
 		cout << "\n\t\tAgregar columna\n\n";
 		cout << "Defina el tipo de dato de la columna\n\n";
@@ -317,37 +332,38 @@ private:
 		}
 		switch (opcion)
 		{
-		case '1':	agregar_Columna_Tipo(1); break;
-		case '2':	agregar_Columna_Tipo(2); break;
-		case '3':	agregar_Columna_Tipo(3); break;
-		case '4':	agregar_Columna_Tipo(4); break;
-		case '5':	agregar_Columna_Tipo(5); break;
-		case '6':	agregar_Columna_Tipo(6); break;
-		case '7':	agregar_Columna_Tipo(7); break;
-		case '8':	agregar_Columna_Tipo(8); break;
-		case '9':	agregar_Columna_Tipo(9); break;
-		case '10':	agregar_Columna_Tipo(10); break;
+		case '1':	agregar_Columna_Tipo(1,n); break;
+		case '2':	agregar_Columna_Tipo(2,n); break;
+		case '3':	agregar_Columna_Tipo(3,n); break;
+		case '4':	agregar_Columna_Tipo(4,n); break;
+		case '5':	agregar_Columna_Tipo(5,n); break;
+		case '6':	agregar_Columna_Tipo(6, n); break;
+		case '7':	agregar_Columna_Tipo(7, n); break;
+		case '8':	agregar_Columna_Tipo(8, n); break;
+		case '9':	agregar_Columna_Tipo(9, n); break;
+		case '10':	agregar_Columna_Tipo(10, n); break;
 		case 'X' || 'x':
 			break;
 		default:
 			break;
 		}
-		filtrar_Alguna_Tabla();
+		modificar_Tabla(n);
 	}
 
-	void agregar_Fila_O_Registro() {
+	void agregar_Fila_O_Registro(int numtabla) {
 		system("cls");
 		cout << "\n\t\tAgregar fila o nuevo registro a la tabla\n\n";
 		//crear un objeto CRegitro o Cfila 
 		//obtener numero de columnas de la tabla
-		short n = 5;
+		short n = basededatos->gettablainpos(numtabla - 1)->getcantidaddecolumnas();
 		//una varible temporal
 		string temp;
 		for (size_t i = 0; i < n; i++)
 		{
-			cout << "Dato para la columna " << i + 1 << ":\n";
+			cout << "Dato para la columna " << basededatos->gettablainpos(numtabla - 1)->getcolumnainpos(i)->getminombre() << ":\n";
 			cin >> temp;
 			//almacenar dato en la columna correspondiente
+			basededatos->gettablainpos(numtabla - 1)->getcolumnainpos(i)->agregardato(temp);
 			temp = "";
 		}
 		cout << "Agregando registro a la tabla...\n\n";
@@ -359,7 +375,7 @@ private:
 			cin >> opcion;
 			if (opcion == 'B' || opcion == 'b')break;
 		}
-		modificar_Tabla();
+		modificar_Tabla(numtabla);
 	}
 
 	void filtrar_Tabla_Por_Criterio() {
@@ -397,12 +413,13 @@ private:
 		filtrar_Tabla();
 	}
 
-	void agregar_Columna_Tipo(int n) {
+	void agregar_Columna_Tipo(int n, int quetablaes) {
 		string nombre = "";
 		cout << "Ingrese nombre de la columna:\n";
 		cin >> nombre;
 		cout << "\nCreando columna en la tabla...\n";
-		_sleep(3000);//aqui va todo lpara crear una columna
+		this->basededatos->gettablainpos(quetablaes-1)->agregarcolumna(n,nombre);
+
 		cout << "\nCreación de columna completa.\n\n";
 		cout << "Presione B para regresar...";
 		char opcion = ' ';
@@ -411,9 +428,9 @@ private:
 			cin >> opcion;
 			if (opcion == 'B' || opcion == 'b')break;
 		}
-		agregar_Columna();
+		agregar_Columna(quetablaes);
 	}
 private:
-
+	CTabla* tablaconmodificaciones;
 };
 #endif

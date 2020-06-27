@@ -6,16 +6,22 @@
 #include <fstream>
 using namespace std;
 class CTabla {
-	int cantidad;
+	int cantidaddecolumnas;
 	int ncol;
 	vector<vector<string>*>* datosdelatabla;
 	CArbolbb<vector<string>*>* abbF;
 	vector<CColumna*>columnas;//**
 	string nombredelatabla;
 public:
-	void agregarcolumna(int mitipodedato) {
-		columnas.push_back(new CColumna(mitipodedato));
-		cantidad++;
+	void agregarcolumna(int mitipodedato, string nombre) {
+		columnas.push_back(new CColumna(mitipodedato, nombre));
+		cantidaddecolumnas++;
+	}
+	string getnombredelatabla() {
+		return this->nombredelatabla;
+	}
+	void setnombredelatabla(string nombredelatabla) {
+		this->nombredelatabla = nombredelatabla;
 	}
 	CColumna* getcolumnainpos(int pos) {
 		return columnas.at(pos);
@@ -23,8 +29,8 @@ public:
 	CArbolbb<vector<string>*>* getabbF() {
 		return this->abbF;
 	}
-	int getcantidad() {
-		return this->cantidad;
+	int getcantidaddecolumnas() {
+		return this->cantidaddecolumnas;
 	}
 	void indexar() {
 		auto compvalores = [=](vector<string>* a, vector<string>* b)->bool {
@@ -39,7 +45,6 @@ public:
 			for (short j = 0; j < columnas.size(); j++)
 			{
 				fila->push_back(columnas.at(j)->getmisdatos()->at(i));
-				cout << "Tamanio de la fila " << fila->size() << " ";
 			}
 			cout << endl;
 			vector<string>* memoria = new vector<string>(*fila);
@@ -49,10 +54,15 @@ public:
 		}
 
 	}
-	void mostrargrafo() {
+	void mostrarregistros() {
+		for (short i = 0; i < columnas.size(); i++)
+		{
+			cout << columnas.at(i)->getminombre() <<"\t";
+		}
+		cout << endl;
 		for (int i = 0; i < datosdelatabla->size(); ++i) {
 			for (int j = 0; j < datosdelatabla->at(0)->size(); ++j) {
-				cout << datosdelatabla->at(i)->at(j) << " ";
+				cout << datosdelatabla->at(i)->at(j) << "\t";
 			}
 			cout << endl;
 		}
@@ -69,7 +79,7 @@ public:
 		while (true)
 		{
 			cout << "digite la columna que quiere filtrar"; cin >> nColumna;
-			if (nColumna >= 0 && nColumna <= getcantidad())break;
+			if (nColumna >= 0 && nColumna <= getcantidaddecolumnas())break;
 		}
 		while (true)
 		{
@@ -154,8 +164,8 @@ public:
 			break;
 		}
 	}
-	CTabla(string nombre ="") {
-		this->cantidad = 0;
+	CTabla(string nombre) {
+		this->cantidaddecolumnas = 0;
 		datosdelatabla = new  vector<vector<string>*>();
 		abbF = new CArbolbb<vector<string>*>();
 		this->ncol = 0;

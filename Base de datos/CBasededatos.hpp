@@ -11,8 +11,8 @@ public:
 		tablas = new vector <CTabla*>();
 	}
 	~CBasededatos(){}
-	void agregartabla() {
-		tablas->push_back(new CTabla());
+	void agregartabla(string nombre) {
+		tablas->push_back(new CTabla(nombre));
 		this->numerodetablas++;
 	}
 	CTabla* gettablainpos(int pos) {
@@ -31,14 +31,21 @@ private:
 class DataBase {
 private:
 	vector<CTabla*> tablas;
+	int cantidaddetablas;
 public:
-	void agregartabla() {
-		tablas.push_back(new CTabla());
+	void agregartabla(string nombre) {
+		tablas.push_back(new CTabla(nombre));
+		++cantidaddetablas;
 	}
 	CTabla* gettablainpos(int pos) {
 		return tablas.at(pos);
 	}
-	DataBase() {}
+	int getcantidaddetablas() {
+		return this->cantidaddetablas;
+	}
+	DataBase() {
+		this->cantidaddetablas = 0;
+	}
 	~DataBase() {
 		tablas.clear();
 	}
