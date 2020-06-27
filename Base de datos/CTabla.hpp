@@ -64,6 +64,7 @@ public:
 		auto compvalores = [=](vector<string>* a, vector<string>* b)->bool {
 				return (a->at(ncol).compare(b->at(ncol))) < 0;
 		};
+		abbF = new CArbolbb<vector<string>*>();
 		for (short i = 0; i < columnas.at(0)->misdatos->size(); i++)
 		{
 			fila = new vector<string>;
@@ -109,20 +110,28 @@ public:
 	void borrararbol() {
 		abbF->borrar_todo();
 	}
-	void filtrar() {
-		int nColumna = 0, tipoFiltro = 0;
+	void filtrar(int tipoFiltro) {
+		int nColumna = 0, cantidad;
 		string valor = "";
+		cout << "\nColumnas con las que contamos hasta el momento\n";
+		for (short i = 0; i < getcantidaddecolumnas(); i++)
+		{
+			cout << i + 1 << ") " << getcolumnainpos(i)->getminombre()<<endl;
+		}
+		cout << "\nIndique el número de columnas a filtrar(max. 2):\n";
+		while (true)
+		{
+			cin >> cantidad;
+			if (cantidad == 1 || cantidad == 2)break;
+		}
+
 		while (true)
 		{
 			cout << "Digite la columna que quiere filtrar"; cin >> nColumna;
-			if (nColumna >= 0 && nColumna <= getcantidaddecolumnas())break;
+			if (nColumna >= 1 && nColumna <= getcantidaddecolumnas())break;
 		}
-		indexar(nColumna);
-		while (true)
-		{
-			cout << "Digite el tipo de filtrado"; cin >> tipoFiltro;
-			if (tipoFiltro >= 1 && tipoFiltro <= 9)break;
-		}
+		indexar(nColumna-1);
+		//hacer las validaciones para el casteo
 		cout << "Filtrar por...\n";
 		if (tipoFiltro >= 1 && tipoFiltro <= 7) {
 			if (tipoFiltro == 1)cout << "valores mayores que: ";
@@ -130,53 +139,54 @@ public:
 			if (tipoFiltro == 3)cout << "valores iguales a: ";
 			if (tipoFiltro == 4)cout << "valores que inician con: ";
 			if (tipoFiltro == 5)cout << "valores que terminan con: ";
-			if (tipoFiltro == 6)cout << "valores que contienen: ";
+			if (tipoFiltro == 6)cout << "valores que contienen: ";//string
 			if (tipoFiltro == 7)cout << "valores que no contienen: ";
 			cin >> valor;
 			_filtrar(nColumna, tipoFiltro, valor);
 		}
-		if (tipoFiltro == 8 || tipoFiltro == 9)_filtrar(nColumna, tipoFiltro);
+		if (tipoFiltro == 8 || tipoFiltro == 9)_filtrar(nColumna, tipoFiltro);//int
 	}
 	void _filtrar(int nColumna, int opcionDeFiltrado, string valor = "") {
+		//incluir el "Mayor que todo" y el menor que todo
 		//1
 		auto mayorQue = [=](vector<string>* a)->void {
-			if (a->at(nColumna) > valor)
+			if (a->at(nColumna-1) > valor)
 				for (int i = 0; i < a->size(); i++)cout << a->at(i) << " ";
 			cout << endl;
 		};
 		//2
 		auto menorQue = [=](vector<string>* a)->void {
-			if (a->at(nColumna) < valor)
+			if (a->at(nColumna-1) < valor)
 				for (int i = 0; i < a->size(); i++)cout << a->at(i) << " ";
 			cout << endl;
 		};
 		//3
 		auto igualA = [=](vector<string>* a)->void {
-			if (a->at(nColumna) == valor)
+			if (a->at(nColumna-1) == valor)
 				for (int i = 0; i < a->size(); i++)cout << a->at(i) << " ";
 			cout << endl;
 		};
 		//4
 		auto iniciaCon = [=](vector<string>* a)->void {
-			if (a->at(nColumna).at(0) == valor.at(0))
+			if (a->at(nColumna-1).at(0) == valor.at(0))
 				for (int i = 0; i < a->size(); i++)cout << a->at(i) << " ";
 			cout << endl;
 		};
 		//5
 		auto terminaCon = [=](vector<string>* a)->void {
-			if (a->at(nColumna).at(a->at(nColumna).size() - 1) == valor.at(0))
+			if (a->at(nColumna-1).at(a->at(nColumna-1).size() - 1) == valor.at(0))
 				for (int i = 0; i < a->size(); i++)cout << a->at(i) << " ";
 			cout << endl;
 		};
 		//6
 		auto estaContenidoEn = [=](vector<string>* a)->void {
-			if (a->at(nColumna).find(valor)< string::npos)
+			if (a->at(nColumna-1).find(valor)< string::npos)
 				for (int i = 0; i < a->size(); i++)cout << a->at(i) << " ";
 			cout << endl;
 		};
 		//7
 		auto noEstaContenidoEn = [=](vector<string>* a)->void {
-			if (a->at(nColumna).find(valor) == string::npos)
+			if (a->at(nColumna-1).find(valor) == string::npos)
 				for (int i = 0; i < a->size(); i++)cout << a->at(i) << " ";
 			cout << endl;
 		};
@@ -185,7 +195,9 @@ public:
 			for (int i = 0; i < a->size(); i++)cout << a->at(i) << " ";
 			cout << endl;
 		};
-
+		system("cls");
+		cout << "\n\t\tFiltrado\n\n";
+		cout << "Su tabla con los filtros correspondientes:\n\n";
 		switch (opcionDeFiltrado)
 		{
 		case 1:	abbF->enorden(mayorQue); break;
@@ -205,11 +217,13 @@ public:
 	CTabla(string nombre) {
 		this->cantidaddecolumnas = 0;
 		datosdelatabla = new  vector<vector<string>*>();
-		abbF = new CArbolbb<vector<string>*>();
 		this->nombredelatabla = nombre;
 	}
 	~CTabla() {
 		columnas.clear();
+		this->datosdelatabla->clear();
+		delete datosdelatabla;
+		abbF->borrar_todo();
 	}
 	friend class Database;
 };

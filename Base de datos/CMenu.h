@@ -13,7 +13,9 @@ public:
 		main();
 		setlocale(LC_ALL, "Spanish");
 	}
-	~CMenu() {}
+	~CMenu() {
+		delete basededatos;
+	}
 
 	//Fase 0
 
@@ -191,7 +193,7 @@ private:
 		system("cls");
 		cout << "\n\t\tFiltrar tabla\n\n";
 		cout << "Qué tabla desea filtrar?\n\n";
-		cout << "1) Primera tabla que creó\n";
+		cout << "1) Primera tabla que creó\n";//en vez de ponerlo así, poner nombre de la tabla
 		cout << "2) Segunda tabla que creó\n";
 		cout << "3) Tercera tabla que creó\n\n";
 		cout << "Ingrese el número de tabla que desea filtrar o\n";
@@ -268,7 +270,7 @@ private:
 		modificar_Alguna_Tabla();
 	}
 
-	void filtrar_Tabla(short n = 0) {
+	void filtrar_Tabla(short n) {
 		system("cls");
 		//crear un objeto tabla dinamica...
 		//Ctabla* nuevo;
@@ -294,13 +296,13 @@ private:
 		}
 		switch (opcion)
 		{
-		case 'a':	filtrar_Tabla_Por_Criterio(); break;
-		case 'b':	filtrar_Tabla_Por_Criterio(); break;
-		case 'c':	filtrar_Tabla_Por_Criterio(); break;
-		case 'd':	filtrar_Tabla_Por_Criterio(); break;
-		case 'e':	filtrar_Tabla_Por_Criterio(); break;
-		case 'f':	filtrar_Tabla_Por_Criterio(); break;
-		case 'g':	filtrar_Tabla_Por_Criterio(); break;
+		case 'a':	filtrar_Tabla_Por_Criterio(n,9); break;//el n es el numero de la tabla a filtrar
+		case 'b':	filtrar_Tabla_Por_Criterio(n,8); break;
+		case 'c':	filtrar_Tabla_Por_Criterio(n,3); break;
+		case 'd':	filtrar_Tabla_Por_Criterio(n,4); break;
+		case 'e':	filtrar_Tabla_Por_Criterio(n,5); break;
+		case 'f':	filtrar_Tabla_Por_Criterio(n,6); break;
+		case 'g':	filtrar_Tabla_Por_Criterio(n,7); break;// 1 y 2 no están porque no tienen concordancia con el menu de opciones
 		case 'X' || 'x':
 			break;
 		default:
@@ -378,30 +380,24 @@ private:
 		modificar_Tabla(numtabla);
 	}
 
-	void filtrar_Tabla_Por_Criterio() {
-		short cantidad = 0;
-		cout << "\nIndique el número de columnas a filtrar(max. 2):\n";
-		while (true)
-		{
-			cin >> cantidad;
-			if (cantidad == 1 || cantidad == 2)break;
-		}
-		string columna1, columna2 = "";
-		if (cantidad == 1) {
-			cout << "Nombre de la primera columna a filtrar:\n";
-			cin >> columna1;
-		}
-		else
-		{
-			cout << "Nombre de la primera columna a filtrar:\n";
-			cin >> columna1;
-			cout << "\nNombre de la segunda columna a filtrar:\n";
-			cin >> columna2;
-		}
+	void filtrar_Tabla_Por_Criterio(int n, int opcionafiltrar) {
+		basededatos->gettablainpos(n - 1)->filtrar(opcionafiltrar);
 
-		system("cls");
-		cout << "\n\t\tFiltrado\n\n";
-		cout << "Su tabla con los filtros correspondientes:\n\n";
+		//short cantidad = 0;		
+		//int opcion;
+		//string columna1, columna2 = "";
+		//if (cantidad == 1) {
+		//	cout << "Numero de la primera columna a filtrar:\n";
+		//	cin >> opcion;
+		//}
+		//else
+		//{
+		//	cout << "Numero de la primera columna a filtrar:\n";
+		//	cin >> opcion;
+		//	cout << "Su tabla se filtro correctamente\n\n";
+		//	cout << "\Numero de la segunda columna a filtrar:\n";
+		//	cin >> opcion;
+		//}
 		//aqui se colocara los metodos para filtrar la tabla
 		cout << "Presione B para regresar...\n";
 		char opcion = ' ';
@@ -410,7 +406,7 @@ private:
 			cin >> opcion;
 			if (opcion == 'B' || opcion == 'b')break;
 		}
-		filtrar_Tabla();
+		filtrar_Tabla(n);
 	}
 
 	void agregar_Columna_Tipo(int n, int quetablaes) {
@@ -430,7 +426,5 @@ private:
 		}
 		agregar_Columna(quetablaes);
 	}
-private:
-	CTabla* tablaconmodificaciones;
 };
 #endif

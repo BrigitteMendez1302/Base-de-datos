@@ -52,6 +52,7 @@ public:
 	}
 	~DataBase() {
 		tablas.clear();
+		delete tablaauxiliar;
 	}
 };
 
