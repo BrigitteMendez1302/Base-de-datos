@@ -5,21 +5,42 @@
 #include<functional>
 #include "CBasededatos.hpp"
 using namespace std;
+auto lambda0 = [=](vector<string>* a) {
+	for (short i = 0; i < a->size(); i++) cout << a->at(i) << " ";
+	cout << endl;
+};
+
 class CMenu
 {
 	int numvecesquepuedesvisualizar;
 public:
 	CMenu() {
+		setlocale(LC_ALL, "Spanish");
 		basededatos = new CBasededatos();
 		this->numvecesquepuedesvisualizar = 0;
+		registroinicializado();
+		////this->basededatos->gettablainpos(0)->indexar();
+		//this->basededatos->gettablainpos(0)->mostrarregistros();
 		main();
-		setlocale(LC_ALL, "Spanish");
 	}
 	~CMenu() {
 		delete basededatos;
 	}
-
-	//Fase 0
+	void registroinicializado() {
+		this->basededatos->agregartabla("YUTE");
+		this->basededatos->gettablainpos(0)->agregarcolumna(1, "Shorts");
+		this->basededatos->gettablainpos(0)->agregarcolumna(2, "Intis");
+		this->basededatos->gettablainpos(0)->getcolumnainpos(0)->agregardato("14");
+		this->basededatos->gettablainpos(0)->getcolumnainpos(0)->agregardato("12");
+		this->basededatos->gettablainpos(0)->getcolumnainpos(0)->agregardato("9");
+		this->basededatos->gettablainpos(0)->getcolumnainpos(0)->agregardato("44");
+		this->basededatos->gettablainpos(0)->getcolumnainpos(1)->agregardato("569");
+		this->basededatos->gettablainpos(0)->getcolumnainpos(1)->agregardato("145");
+		this->basededatos->gettablainpos(0)->getcolumnainpos(1)->agregardato("652");
+		this->basededatos->gettablainpos(0)->getcolumnainpos(1)->agregardato("63");
+	}
+		
+		//Fase 0
 
 	void main() {
 		system("cls");
@@ -49,10 +70,10 @@ public:
 			break;
 		}
 	}
-
 private:
 	CBasededatos *basededatos;
 	string paracolumna;
+	
 	//Fase 1
 
 	void agregar_Nueva_Tabla() {
@@ -79,9 +100,9 @@ private:
 		cout << "\n\t\tVisualizar alguna tabla\n\n";
 		for (short i = 0; i < basededatos->getcantidaddetablas(); i++)
 		{
-			cout << i+1 << ") Tabla "<<i+1 << "\n";
+			cout << i+1 << ") Tabla "<<i+1 << " : " << basededatos->gettablainpos(i)->getnombredelatabla()<<" \n";
 		}
-		cout << "Ingrese el número de tabla que desea ver o\n";
+		cout << "\nIngrese el número de tabla que desea ver o\n";
 		cout << "Presione B para regresar...\n";
 		char opcion = ' ';
 		while (true)
@@ -91,9 +112,9 @@ private:
 		}
 		switch (opcion)
 		{
-		case '1':	visualizar_Tabla(1); break;
-		case '2':	visualizar_Tabla(2); break;
-		case '3':	visualizar_Tabla(3); break;
+		case '1':	visualizar_Tabla(1); break;//cambiar
+		case '2':	visualizar_Tabla(2); break;//cambiar
+		case '3':	visualizar_Tabla(3); break;//cambiar
 		case 'B' || 'b':
 			break;
 		default:
@@ -137,25 +158,29 @@ private:
 	}
 
 	//Fase 2
-
-	void visualizar_Tabla(short n) {
+	void visualizar_Tabla(int n) {
 		system("cls");
-		numvecesquepuedesvisualizar++;
-		if (n-1 >= 0 && n-1 <= basededatos->gettablainpos(n-1)->getcantidaddecolumnas()) {
-			cout <<"\t" << basededatos->gettablainpos(n-1)->getnombredelatabla() << endl<<endl;
-			if (this->numvecesquepuedesvisualizar == 1) basededatos->gettablainpos(n - 1)->indexar(0);
-			basededatos->gettablainpos(n-1)->mostrarregistros();
-			cout << endl;
-		}
-
-		//crear un objeto tabla dinamica...
-		//Ctabla* nuevo;
-		//inicializar objeto tabla dinamica..
-		//nuevo= obtener_tabla(n);
-		//cout<<nuevo->getNombre();
-		//nuevo->mostrar_Contenido();
+		cout << "1. Ver tabla completa\n";
+		cout << "2. Ver tabla ordenada de acuerdo a los valores de una columna\n";
+		cout << "3. Ver tabla por campos seleccionados\n\n";
+		cout << "Ingrese el modo visualización de tabla que desea o\n";
 		cout << "Presione B para regresar...\n";
 		char opcion = ' ';
+		while (true)
+		{
+			cin >> opcion;
+			if (opcion == '1' || opcion == '2' || opcion == '3' || opcion == 'B' || opcion == 'b')break;
+		}
+		switch (opcion)
+		{
+		case '1':	visualizar_Tabla_Completa(n); break;//siguen llegando como n
+		case '2':	visualizar_Tabla_Ordenada_Por_Columna(n); break;
+		case '3':	visualizar_Tabla_Por_Columna_Seleccionadas(n); break;
+		case 'B' || 'b': break;
+		default: break;
+		}
+		cout << "Presione B para regresar...\n";
+		opcion = ' ';
 		while (true)
 		{
 			cin >> opcion;
@@ -163,14 +188,88 @@ private:
 		}
 		visualizar_Alguna_Tabla();
 	}
-
+	void visualizar_Tabla_Completa(short n) {
+		system("cls");
+		numvecesquepuedesvisualizar++;
+		if (n-1 >= 0 && n-1 <= basededatos->gettablainpos(n-1)->getcantidaddecolumnas()) {
+			cout <<"\t" << basededatos->gettablainpos(n-1)->getnombredelatabla() << endl<<endl;
+			for (short i = 0; i < basededatos->gettablainpos(n-1)->getcantidaddecolumnas(); i++)
+			{
+				basededatos->gettablainpos(n - 1)->getcolumnainpos(i)->getminombre();
+			}
+			if (this->numvecesquepuedesvisualizar == 1) basededatos->gettablainpos(n - 1)->indexar();
+			basededatos->gettablainpos(n-1)->mostrarregistros();
+			cout << endl;
+	}
+		cout << "Presione B para regresar...\n";
+		char opcion = ' ';
+		while (true)
+		{
+			cin >> opcion;
+			if (opcion == 'B' || opcion == 'b')break;
+		}
+		visualizar_Tabla(n);
+	}
+	void visualizar_Tabla_Ordenada_Por_Columna(int n) {
+		int columna = 0;
+		while (true)
+		{
+			system("cls");
+			cout << "Tabla " << basededatos->gettablainpos(n-1)->getnombredelatabla() << endl;
+			cout << "Ingrese el numero de columna con el cual se ordenará la tabla \n";
+			cin >> columna;
+			if (columna > 0 && columna < basededatos->gettablainpos(n-1)->getcantidaddecolumnas()) break;
+		}
+		basededatos->gettablainpos(n-1)->indexararbol(columna-1);
+		basededatos->gettablainpos(n-1)->getabbF()->enorden(lambda0);
+		cout << "Presione B para regresar...\n";
+		char opcion = ' ';
+		while (true)
+		{
+			cin >> opcion;
+			if (opcion == 'B' || opcion == 'b')break;
+		}
+		visualizar_Tabla(n);
+	}
+	void visualizar_Tabla_Por_Columna_Seleccionadas(int n) {
+		int columna1=0,cantidad = 0;
+		while (true)
+		{
+			system("cls");
+			cout << "Tabla " << basededatos->gettablainpos(n-1)->getnombredelatabla() << endl;
+			cout << "Ingrese cuantas columnas desea ver: \n";
+			cin >> cantidad;
+			if (cantidad > 0 && cantidad <= basededatos->gettablainpos(n-1)->getcantidaddecolumnas()) break;
+		}
+		cout << "Columnas:\n";
+		for (int i = 0; i < basededatos->gettablainpos(n - 1)->getcantidaddecolumnas(); i++) cout << "Columna " << i + 1 << ": " << basededatos->gettablainpos(n - 1)->getcolumnainpos(i)->getminombre() << "\n";cout << "\n";
+		basededatos->constructortablanodefinida();
+		for (short i = 0; i < cantidad; i++)
+		{
+			cout << "Digito de la columna que desea ver : " << endl;cin >> columna1;
+			basededatos->gettablaauxnodefinida()->traspasarcolumna(basededatos->gettablainpos(n - 1)->getcolumnainpos(columna1 - 1));
+			cout << basededatos->gettablaauxnodefinida()->getcantidaddecolumnasesp()<<endl;
+		}
+		basededatos->gettablaauxnodefinida()->indexar();
+		basededatos->gettablaauxnodefinida()->mostrarregistros();
+		basededatos->destructortablanodefinida();
+		cout << "Presione B para regresar...\n";
+		char opcion = ' ';
+		while (true)
+		{
+			cin >> opcion;
+			if (opcion == 'B' || opcion == 'b')break;
+		}
+		visualizar_Tabla(n);
+	}
 	void modificar_Alguna_Tabla() {
 		system("cls");
 		cout << "\n\t\tModificar tabla\n\n";
 		cout << "Qué tabla desea modificar?\n\n";
-		cout << "1) Primera tabla que creó\n";
-		cout << "2) Segunda tabla que creó\n";
-		cout << "3) Tercera tabla que creó\n\n";
+		for (short i = 0; i < basededatos->getcantidaddetablas(); i++)
+		{
+			cout << i + 1 << ") Tabla " << i + 1 << " : " << basededatos->gettablainpos(i)->getnombredelatabla() << " \n";
+		}
 		cout << "Ingrese el número de tabla que desea modifcar o\n";
 		cout << "Presione B para regresar...\n";
 		char opcion = ' ';
@@ -196,9 +295,10 @@ private:
 		system("cls");
 		cout << "\n\t\tFiltrar tabla\n\n";
 		cout << "Qué tabla desea filtrar?\n\n";
-		cout << "1) Primera tabla que creó\n";//en vez de ponerlo así, poner nombre de la tabla
-		cout << "2) Segunda tabla que creó\n";
-		cout << "3) Tercera tabla que creó\n\n";
+		for (short i = 0; i < basededatos->getcantidaddetablas(); i++)
+		{
+			cout << i + 1 << ") Tabla " << i + 1 << " : " << basededatos->gettablainpos(i)->getnombredelatabla() << " \n";
+		}
 		cout << "Ingrese el número de tabla que desea filtrar o\n";
 		cout << "Presione B para regresar...\n";
 		char opcion = ' ';
@@ -370,7 +470,6 @@ private:
 		{
 			cout << "Dato para la columna " << basededatos->gettablainpos(numtabla - 1)->getcolumnainpos(i)->getminombre() << ":\n";
 			cin >> temp;
-			//almacenar dato en la columna correspondiente
 			basededatos->gettablainpos(numtabla - 1)->getcolumnainpos(i)->agregardato(temp);
 			temp = "";
 		}
@@ -387,8 +486,8 @@ private:
 	}
 
 	void filtrar_Tabla_Por_Criterio(int n, int opcionafiltrar) {
-		basededatos->settablaaux(basededatos->gettablainpos(n - 1));
-		basededatos->gettablaaux()->filtrar(opcionafiltrar);
+		basededatos->settablaauxdefinida(basededatos->gettablainpos(n - 1));
+		basededatos->gettablaauxdefinida()->filtrar(opcionafiltrar);
 		//aqui se colocara los metodos para filtrar la tabla
 		//validar que sea hasta 2 filtrados
 		

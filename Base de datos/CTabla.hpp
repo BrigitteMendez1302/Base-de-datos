@@ -6,7 +6,7 @@
 #include <fstream>
 using namespace std;
 class CTabla {
-	int cantidaddecolumnas;
+	int cantidaddecolumnas, cantidaddecolumnasesp;
 	vector<vector<string>*>* datosdelatabla;
 	CArbolbb<vector<string>*>* abbF;
 	vector<CColumna*>columnas;//**
@@ -20,6 +20,7 @@ public:
 	void traspasarcolumna(CColumna* antigua) {
 		CColumna* nueva = antigua;
 		columnas.push_back(nueva);
+		cantidaddecolumnasesp++;
 	}
 	string getnombredelatabla() {
 		return this->nombredelatabla;
@@ -36,6 +37,9 @@ public:
 	int getcantidaddecolumnas() {
 		return this->cantidaddecolumnas;
 	}
+	int getcantidaddecolumnasesp() {
+		return this->cantidaddecolumnasesp;
+	}
 	int to_int(string dato) {
 		return atoi(dato.c_str());
 	}
@@ -48,24 +52,10 @@ public:
 	char to_char(string dato) {
 		return dato.at(0);
 	}
-	void indexar(int ncol) {
-		int tipodedato = columnas.at(ncol)->getmitipodedato();
+	void indexar() {
 		vector<string>* fila;
 		cout << "Cantidad de datos de la columna : " << columnas.at(0)->misdatos->size() << endl;
 		cout << "Cantidad de columnas : " << columnas.size() << endl;
-		auto compints = [=](vector<string>* a, vector<string>* b)->bool {
-			return to_int(a->at(ncol)) < to_int(b->at(ncol));
-		};
-		auto complongs = [=](vector<string>* a, vector<string>* b)->bool {
-				return to_longlong(a->at(ncol)) < to_longlong(b->at(ncol));
-		};
-		auto compchars = [=](vector<string>* a, vector<string>* b)->bool {
-				return to_char(a->at(0)) < to_char(b->at(0));
-		};
-		auto compvalores = [=](vector<string>* a, vector<string>* b)->bool {
-				return (a->at(ncol).compare(b->at(ncol))) < 0;
-		};
-		abbF = new CArbolbb<vector<string>*>();
 		for (short i = 0; i < columnas.at(0)->misdatos->size(); i++)
 		{
 			fila = new vector<string>;
@@ -75,7 +65,34 @@ public:
 			}
 			cout << endl;
 			vector<string>* memoria = new vector<string>(*fila);
-			datosdelatabla->push_back(memoria);
+			datosdelatabla->push_back(memoria);//indexacion
+			fila->clear(); delete fila;
+		}
+	}
+	void indexararbol(int ncol) {
+		int tipodedato = columnas.at(ncol)->getmitipodedato();
+		vector<string>* fila;
+		auto compints = [=](vector<string>* a, vector<string>* b)->bool {
+			return to_int(a->at(ncol)) < to_int(b->at(ncol));
+		};
+		auto complongs = [=](vector<string>* a, vector<string>* b)->bool {
+			return to_longlong(a->at(ncol)) < to_longlong(b->at(ncol));
+		};
+		auto compchars = [=](vector<string>* a, vector<string>* b)->bool {
+			return to_char(a->at(0)) < to_char(b->at(0));
+		};
+		auto compvalores = [=](vector<string>* a, vector<string>* b)->bool {
+			return (a->at(ncol).compare(b->at(ncol))) < 0;
+		};
+		abbF = new CArbolbb<vector<string>*>();
+		for (short i = 0; i < columnas.at(0)->misdatos->size(); i++)
+		{
+			fila = new vector<string>;
+			for (short j = 0; j < columnas.size(); j++)
+			{
+				fila->push_back(columnas.at(j)->getmisdatos()->at(i));
+			}
+			vector<string>* memoria = new vector<string>(*fila);
 			if (tipodedato == 1 || tipodedato == 2 || tipodedato == 3 || tipodedato == 4) {
 				abbF->insertar(memoria, compints);
 			}
@@ -90,8 +107,8 @@ public:
 			}
 			fila->clear(); delete fila;
 		}
-	}
 
+	}
 	void mostrarregistros() {
 		for (short i = 0; i < columnas.size(); i++)
 		{
@@ -106,9 +123,6 @@ public:
 		}
 		cout << "Tamaño de la tabla (filas) " << datosdelatabla->size() << endl;
 		cout << "Tamaño de la tabla (columnas) " << datosdelatabla->at(0)->size() << endl;
-	}
-	void borrararbol() {
-		abbF->borrar_todo();
 	}
 	void filtrar(int tipoFiltro) {
 		int nColumna, cantidad;
@@ -130,7 +144,7 @@ public:
 			cout << "Digite la columna que quiere filtrar"; cin >> nColumna;
 			if (nColumna >= 1 && nColumna <= getcantidaddecolumnas())break;
 		}
-		indexar(nColumna-1);
+		indexararbol(nColumna-1);
 		//hacer las validaciones para el casteo
 		cout << "Filtrar por...\n";
 		if (tipoFiltro >= 1 && tipoFiltro <= 7) {
@@ -237,6 +251,7 @@ public:
 	}
 	CTabla(string nombre) {
 		this->cantidaddecolumnas = 0;
+		this-> cantidaddecolumnasesp = 0;
 		datosdelatabla = new  vector<vector<string>*>();
 		this->nombredelatabla = nombre;
 	}
@@ -244,7 +259,7 @@ public:
 		columnas.clear();
 		this->datosdelatabla->clear();
 		delete datosdelatabla;
-		abbF->borrar_todo();
+		//abbF->borrar_todo();
 	}
 	friend class Database;
 };

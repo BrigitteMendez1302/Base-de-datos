@@ -6,7 +6,8 @@ using namespace std;
 class CBasededatos {
 private:
 	vector<CTabla*> tablas;
-	CTabla* tablaauxiliar;
+	CTabla* tablaauxiliardefinida;
+	CTabla* tablaauxiliarnodefinida;
 	int cantidaddetablas;
 public:
 	void agregartabla(string nombre) {
@@ -14,26 +15,37 @@ public:
 		++cantidaddetablas;
 	}
 	void igualartabla(CTabla* antigua){
-		this->tablaauxiliar = antigua;
+		this->tablaauxiliardefinida = antigua;
 	}
 	CTabla* gettablainpos(int pos) {
 		return tablas.at(pos);
 	}
-	CTabla* gettablaaux() {
-		return this->tablaauxiliar;
+	CTabla* gettablaauxdefinida() {
+		return this->tablaauxiliardefinida;
 	}
-	void settablaaux(CTabla* tablaauxiliar) {
-		this->tablaauxiliar = tablaauxiliar;
+	void settablaauxdefinida(CTabla* tablaauxiliar) {
+		this->tablaauxiliardefinida = tablaauxiliar;
+	}
+	CTabla* gettablaauxnodefinida() {
+		return this->tablaauxiliarnodefinida;
 	}
 	int getcantidaddetablas() {
 		return this->cantidaddetablas;
 	}
+	void constructortablanodefinida() {
+		this->tablaauxiliarnodefinida = new CTabla("");
+	}
+	void destructortablanodefinida() {
+		delete this->tablaauxiliarnodefinida;
+	}
 	CBasededatos() {
 		this->cantidaddetablas = 0;
+		constructortablanodefinida();
 	}
 	~CBasededatos() {
 		tablas.clear();
-		delete tablaauxiliar;
+		delete tablaauxiliardefinida;
+		delete tablaauxiliarnodefinida;
 	}
 };
 
