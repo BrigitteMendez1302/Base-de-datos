@@ -19,6 +19,12 @@ public:
 	CTabla* gettablainpos(int pos) {
 		return tablas.at(pos);
 	}
+	CTabla* gettablaaux() {
+		return this->tablaauxiliar;
+	}
+	void settablaaux(CTabla* tablaauxiliar) {
+		this->tablaauxiliar = tablaauxiliar;
+	}
 	int getcantidaddetablas() {
 		return this->cantidaddetablas;
 	}

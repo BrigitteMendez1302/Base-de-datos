@@ -7,9 +7,11 @@
 using namespace std;
 class CMenu
 {
+	int numvecesquepuedesvisualizar;
 public:
 	CMenu() {
 		basededatos = new CBasededatos();
+		this->numvecesquepuedesvisualizar = 0;
 		main();
 		setlocale(LC_ALL, "Spanish");
 	}
@@ -138,9 +140,10 @@ private:
 
 	void visualizar_Tabla(short n) {
 		system("cls");
+		numvecesquepuedesvisualizar++;
 		if (n-1 >= 0 && n-1 <= basededatos->gettablainpos(n-1)->getcantidaddecolumnas()) {
-			cout << basededatos->gettablainpos(n-1)->getnombredelatabla() << endl;
-			basededatos->gettablainpos(n - 1)->indexar(0);
+			cout <<"\t" << basededatos->gettablainpos(n-1)->getnombredelatabla() << endl<<endl;
+			if (this->numvecesquepuedesvisualizar == 1) basededatos->gettablainpos(n - 1)->indexar(0);
 			basededatos->gettablainpos(n-1)->mostrarregistros();
 			cout << endl;
 		}
@@ -219,12 +222,15 @@ private:
 
 	void mandar_El_Regitro_A_Un_Archivo_Plano() {
 		system("cls");
+		string nombrearchivo;
 		cout << "\n\t\tMandar el registro a archivo plano\n\n";
+		cout << "Nombre del archivo : ";cin >> nombrearchivo;
 		cout << "Recordatorio:\n\n";
 		cout << "El archivo que generará este programa, separará las columnas por una ',' y las filas por un '\n'.\n\n";
 		cout << "Transfiriendo datos...\n";
-		_sleep(3000);
-		//aqui ira el proceso de transferencia
+		_sleep(300);
+		//aqui se modificaria para cualquier tabla
+		this->basededatos->gettablainpos(0)->mandaraarchivotxt(nombrearchivo);
 		cout << "Tabla pasada a texto plano con exito.\n";
 		cout << "Ubicación: Carpeta de este proyecto\n\n";
 		cout << "Presione B para regresar...\n";
@@ -247,7 +253,7 @@ private:
 		//inicializar objeto tabla dinamica..
 		//nuevo= obtener_tabla(n);
 		//cout<<nuevo->getNombre();
-		cout << this->basededatos->gettablainpos(n - 1)->getnombredelatabla() << endl;
+		cout << "\t" << this->basededatos->gettablainpos(n - 1)->getnombredelatabla() << endl<<endl;
 		cout << "1) Agregar columna a la tabla\n";
 		cout << "2) Agregar fila o nuevo registro a la tabla\n\n";
 		cout << "Ingrese el número de la opcion quec desee ejecutar o\n";
@@ -381,9 +387,11 @@ private:
 	}
 
 	void filtrar_Tabla_Por_Criterio(int n, int opcionafiltrar) {
-		basededatos->gettablainpos(n - 1)->filtrar(opcionafiltrar);
+		basededatos->settablaaux(basededatos->gettablainpos(n - 1));
+		basededatos->gettablaaux()->filtrar(opcionafiltrar);
 		//aqui se colocara los metodos para filtrar la tabla
 		//validar que sea hasta 2 filtrados
+		
 		cout << "Presione B para regresar...\n";
 		char opcion = ' ';
 		while (true)

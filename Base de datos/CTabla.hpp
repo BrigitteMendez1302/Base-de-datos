@@ -11,6 +11,7 @@ class CTabla {
 	CArbolbb<vector<string>*>* abbF;
 	vector<CColumna*>columnas;//**
 	string nombredelatabla;
+	ofstream archivo;
 public:
 	void agregarcolumna(int mitipodedato, string nombre) {
 		columnas.push_back(new CColumna(mitipodedato, nombre));
@@ -89,7 +90,6 @@ public:
 			}
 			fila->clear(); delete fila;
 		}
-
 	}
 
 	void mostrarregistros() {
@@ -213,6 +213,27 @@ public:
 			break;
 		}
 
+	}
+	void mandaraarchivotxt(string nombredearchivo) {
+		archivo.open(nombredearchivo);
+		string fila;
+		for (short i = 0; i < columnas.size(); i++)
+		{
+			if (i == columnas.size() - 1) fila += columnas.at(i)->getminombre() + "\n";
+			else fila+= columnas.at(i)->getminombre() + ",";
+		}
+		archivo << fila;
+		fila = "";
+		for (short i = 0; i < columnas.at(0)->misdatos->size(); i++)
+		{
+			for (short j = 0; j < columnas.size(); j++)
+			{
+				if (j == columnas.size() - 1) fila += columnas.at(j)->getmisdatos()->at(i)+"\n";	
+				else fila+=columnas.at(j)->getmisdatos()->at(i) + ",";
+			}
+			archivo << fila; fila = "";
+		}
+		archivo.close();
 	}
 	CTabla(string nombre) {
 		this->cantidaddecolumnas = 0;
