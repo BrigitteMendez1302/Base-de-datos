@@ -55,7 +55,7 @@ public:
 	void indexar() {
 		vector<string>* fila;
 		cout << "Cantidad de datos de la columna : " << columnas.at(0)->misdatos->size() << endl;
-		cout << "Cantidad de columnas : " << columnas.size() << endl;
+		cout << "Cantidad de columnas : " << columnas.size() << endl<<endl;
 		for (short i = 0; i < columnas.at(0)->misdatos->size(); i++)
 		{
 			fila = new vector<string>;
@@ -63,7 +63,6 @@ public:
 			{
 				fila->push_back(columnas.at(j)->getmisdatos()->at(i));
 			}
-			cout << endl;
 			vector<string>* memoria = new vector<string>(*fila);
 			datosdelatabla->push_back(memoria);//indexacion
 			fila->clear(); delete fila;
@@ -84,6 +83,7 @@ public:
 		auto compvalores = [=](vector<string>* a, vector<string>* b)->bool {
 			return (a->at(ncol).compare(b->at(ncol))) < 0;
 		};
+		
 		abbF = new CArbolbb<vector<string>*>();
 		for (short i = 0; i < columnas.at(0)->misdatos->size(); i++)
 		{
@@ -141,7 +141,7 @@ public:
 
 		while (true)
 		{
-			cout << "Digite la columna que quiere filtrar"; cin >> nColumna;
+			cout << "Digite la columna que quiere filtrar : "; cin >> nColumna;
 			if (nColumna >= 1 && nColumna <= getcantidaddecolumnas())break;
 		}
 		indexararbol(nColumna-1);

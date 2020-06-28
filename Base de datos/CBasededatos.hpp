@@ -40,7 +40,6 @@ public:
 	}
 	CBasededatos() {
 		this->cantidaddetablas = 0;
-		constructortablanodefinida();
 	}
 	~CBasededatos() {
 		tablas.clear();

@@ -19,8 +19,6 @@ public:
 		basededatos = new CBasededatos();
 		this->numvecesquepuedesvisualizar = 0;
 		registroinicializado();
-		////this->basededatos->gettablainpos(0)->indexar();
-		//this->basededatos->gettablainpos(0)->mostrarregistros();
 		main();
 	}
 	~CMenu() {
@@ -218,7 +216,7 @@ private:
 			cout << "Tabla " << basededatos->gettablainpos(n-1)->getnombredelatabla() << endl;
 			cout << "Ingrese el numero de columna con el cual se ordenará la tabla \n";
 			cin >> columna;
-			if (columna > 0 && columna < basededatos->gettablainpos(n-1)->getcantidaddecolumnas()) break;
+			if (columna > 0 && columna <= basededatos->gettablainpos(n-1)->getcantidaddecolumnas()) break;
 		}
 		basededatos->gettablainpos(n-1)->indexararbol(columna-1);
 		basededatos->gettablainpos(n-1)->getabbF()->enorden(lambda0);
@@ -248,7 +246,6 @@ private:
 		{
 			cout << "Digito de la columna que desea ver : " << endl;cin >> columna1;
 			basededatos->gettablaauxnodefinida()->traspasarcolumna(basededatos->gettablainpos(n - 1)->getcolumnainpos(columna1 - 1));
-			cout << basededatos->gettablaauxnodefinida()->getcantidaddecolumnasesp()<<endl;
 		}
 		basededatos->gettablaauxnodefinida()->indexar();
 		basededatos->gettablaauxnodefinida()->mostrarregistros();
@@ -384,13 +381,13 @@ private:
 		//nuevo= obtener_tabla(n);
 		//cout<<nuevo->getNombre();
 		cout << "Cuál es el criterio con el que filtrará su tabla?\n\n";
-		cout << "a. Deseo ver el regitro del mayor elemento\n";
-		cout << "b. Deseo ver el regitro del menor elemento\n";
-		cout << "c. Deseo ver el regitro del/de los elementos que sean iguales al elemento que yo ingrese\n";
-		cout << "d. Deseo ver el regitro del/de los elementos que inicien con el caracter que yo ingrese\n";
-		cout << "e. Deseo ver el regitro del/de los elementos que finalicen con el caracter que yo ingrese\n";
-		cout << "f. Deseo ver el regitro del/de los elementos que contengan el caracter que yo ingrese\n";
-		cout << "g. Deseo ver el regitro del/de los elementos que no contengan el caracter que yo ingrese\n\n";
+		cout << "a. Deseo ver el registro del mayor elemento\n";
+		cout << "b. Deseo ver el registro del menor elemento\n";
+		cout << "c. Deseo ver el registro del/de los elementos que sean iguales al elemento que yo ingrese\n";
+		cout << "d. Deseo ver el registro del/de los elementos que inicien con el caracter que yo ingrese\n";
+		cout << "e. Deseo ver el registro del/de los elementos que finalicen con el caracter que yo ingrese\n";
+		cout << "f. Deseo ver el registro del/de los elementos que contengan el caracter que yo ingrese\n";
+		cout << "g. Deseo ver el registro del/de los elementos que no contengan el caracter que yo ingrese\n\n";
 		cout << "Ingrese la letra de la opcion quec desee ejecutar o\n";
 		cout << "Presione X para regresar...\n";
 		char opcion = ' ';
