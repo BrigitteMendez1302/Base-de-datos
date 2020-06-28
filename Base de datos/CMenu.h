@@ -9,7 +9,7 @@ class CMenu
 {
 public:
 	CMenu() {
-		basededatos = new DataBase();
+		basededatos = new CBasededatos();
 		main();
 		setlocale(LC_ALL, "Spanish");
 	}
@@ -49,7 +49,7 @@ public:
 	}
 
 private:
-	DataBase *basededatos;
+	CBasededatos *basededatos;
 	string paracolumna;
 	//Fase 1
 
@@ -382,23 +382,8 @@ private:
 
 	void filtrar_Tabla_Por_Criterio(int n, int opcionafiltrar) {
 		basededatos->gettablainpos(n - 1)->filtrar(opcionafiltrar);
-
-		//short cantidad = 0;		
-		//int opcion;
-		//string columna1, columna2 = "";
-		//if (cantidad == 1) {
-		//	cout << "Numero de la primera columna a filtrar:\n";
-		//	cin >> opcion;
-		//}
-		//else
-		//{
-		//	cout << "Numero de la primera columna a filtrar:\n";
-		//	cin >> opcion;
-		//	cout << "Su tabla se filtro correctamente\n\n";
-		//	cout << "\Numero de la segunda columna a filtrar:\n";
-		//	cin >> opcion;
-		//}
 		//aqui se colocara los metodos para filtrar la tabla
+		//validar que sea hasta 2 filtrados
 		cout << "Presione B para regresar...\n";
 		char opcion = ' ';
 		while (true)

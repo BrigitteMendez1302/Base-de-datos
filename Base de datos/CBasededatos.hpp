@@ -3,32 +3,7 @@
 #include "CTabla.hpp"
 #include <vector>
 using namespace std;
-class CBasededatos
-{
-public:
-	CBasededatos(){
-		numerodetablas = 0;
-		tablas = new vector <CTabla*>();
-	}
-	~CBasededatos(){}
-	void agregartabla(string nombre) {
-		tablas->push_back(new CTabla(nombre));
-		this->numerodetablas++;
-	}
-	CTabla* gettablainpos(int pos) {
-		return tablas->at(pos);
-	}
-	vector<CTabla*>* gettablas() {
-		return this->tablas;
-	}
-	int getnumerodetablas() {
-		return this->numerodetablas;
-	}
-private:
-	vector<CTabla*>* tablas;
-	int numerodetablas;
-};
-class DataBase {
+class CBasededatos {
 private:
 	vector<CTabla*> tablas;
 	CTabla* tablaauxiliar;
@@ -47,10 +22,10 @@ public:
 	int getcantidaddetablas() {
 		return this->cantidaddetablas;
 	}
-	DataBase() {
+	CBasededatos() {
 		this->cantidaddetablas = 0;
 	}
-	~DataBase() {
+	~CBasededatos() {
 		tablas.clear();
 		delete tablaauxiliar;
 	}

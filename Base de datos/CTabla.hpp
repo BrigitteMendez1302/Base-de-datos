@@ -111,7 +111,7 @@ public:
 		abbF->borrar_todo();
 	}
 	void filtrar(int tipoFiltro) {
-		int nColumna = 0, cantidad;
+		int nColumna, cantidad;
 		string valor = "";
 		cout << "\nColumnas con las que contamos hasta el momento\n";
 		for (short i = 0; i < getcantidaddecolumnas(); i++)
