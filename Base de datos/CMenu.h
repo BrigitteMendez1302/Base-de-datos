@@ -26,8 +26,10 @@ public:
 	}
 	void registroinicializado() {
 		this->basededatos->agregartabla("YUTE");
-		this->basededatos->gettablainpos(0)->agregarcolumna(1, "Shorts");
-		this->basededatos->gettablainpos(0)->agregarcolumna(2, "Intis");
+		this->basededatos->gettablainpos(0)->agregarcolumna(1, "Short");
+		this->basededatos->gettablainpos(0)->agregarcolumna(2, "Inti");
+		this->basededatos->gettablainpos(0)->agregarcolumna(6, "Chars");
+		this->basededatos->gettablainpos(0)->agregarcolumna(7, "String");
 		this->basededatos->gettablainpos(0)->getcolumnainpos(0)->agregardato("14");
 		this->basededatos->gettablainpos(0)->getcolumnainpos(0)->agregardato("12");
 		this->basededatos->gettablainpos(0)->getcolumnainpos(0)->agregardato("44");
@@ -36,6 +38,14 @@ public:
 		this->basededatos->gettablainpos(0)->getcolumnainpos(1)->agregardato("145");
 		this->basededatos->gettablainpos(0)->getcolumnainpos(1)->agregardato("652");
 		this->basededatos->gettablainpos(0)->getcolumnainpos(1)->agregardato("63");
+		this->basededatos->gettablainpos(0)->getcolumnainpos(2)->agregardato("D");
+		this->basededatos->gettablainpos(0)->getcolumnainpos(2)->agregardato("a");
+		this->basededatos->gettablainpos(0)->getcolumnainpos(2)->agregardato("f");
+		this->basededatos->gettablainpos(0)->getcolumnainpos(2)->agregardato("C");
+		this->basededatos->gettablainpos(0)->getcolumnainpos(3)->agregardato("Brigitte");
+		this->basededatos->gettablainpos(0)->getcolumnainpos(3)->agregardato("Anita");
+		this->basededatos->gettablainpos(0)->getcolumnainpos(3)->agregardato("fernanda");
+		this->basededatos->gettablainpos(0)->getcolumnainpos(3)->agregardato("Claudio");
 	}
 		
 		//Fase 0
@@ -177,13 +187,13 @@ private:
 		case 'B' || 'b': break;
 		default: break;
 		}
-		cout << "Presione B para regresar...\n";
-		opcion = ' ';
-		while (true)
-		{
-			cin >> opcion;
-			if (opcion == 'B' || opcion == 'b')break;
-		}
+		//cout << "Presione B para regresar...\n";
+		//opcion = ' ';
+		//while (true)
+		//{
+		//	cin >> opcion;
+		//	if (opcion == 'B' || opcion == 'b')break;
+		//}
 		visualizar_Alguna_Tabla();
 	}
 	void visualizar_Tabla_Completa(short n) {
@@ -344,12 +354,6 @@ private:
 
 	void modificar_Tabla(short n) {
 		system("cls");
-		/*this->tablaconmodificaciones=this->basededatos->gettablainpos(n-1);*/
-		//crear un objeto tabla dinamica...
-		//Ctabla* nuevo;
-		//inicializar objeto tabla dinamica..
-		//nuevo= obtener_tabla(n);
-		//cout<<nuevo->getNombre();
 		cout << "\t" << this->basededatos->gettablainpos(n - 1)->getnombredelatabla() << endl<<endl;
 		cout << "1) Agregar columna a la tabla\n";
 		cout << "2) Agregar fila o nuevo registro a la tabla\n\n";

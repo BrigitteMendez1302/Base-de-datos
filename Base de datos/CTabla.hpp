@@ -86,7 +86,7 @@ public:
 			return to_longlong(a->at(ncol)) < to_longlong(b->at(ncol));
 		};
 		auto compchars = [=](vector<string>* a, vector<string>* b)->bool {
-			return to_char(a->at(0)) < to_char(b->at(0));
+			return a->at(ncol).at(0) < b->at(ncol).at(0);
 		};
 		auto compvalores = [=](vector<string>* a, vector<string>* b)->bool {
 			return (a->at(ncol).compare(b->at(ncol))) < 0;
@@ -219,7 +219,7 @@ public:
 		};
 		system("cls");
 		cout << "\n\t\tFiltrado\n\n";
-		cout << "Su tabla con los filtros correspondientes:\n\n";
+		cout << "Su tabla con los filtros correspondientes:\n";
 		switch (opcionDeFiltrado)
 		{
 		case 1:	abbF->enorden(mayorQue); break;
@@ -238,6 +238,7 @@ public:
 	}
 	void mandaraarchivotxt(string nombredearchivo) {
 		string csv = nombredearchivo+".csv";
+		string txt = nombredearchivo + ".txt";
 		archivo.open(csv);
 		string fila;
 		for (short i = 0; i < columnas.size(); i++)
