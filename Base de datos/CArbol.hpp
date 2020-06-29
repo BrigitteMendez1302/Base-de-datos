@@ -1,4 +1,3 @@
-#pragma once
 #ifndef CARBOL_HPP
 #define CARBOL_HPP
 #include "CListadoble.hpp"

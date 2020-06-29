@@ -187,13 +187,6 @@ private:
 		case 'B' || 'b': break;
 		default: break;
 		}
-		//cout << "Presione B para regresar...\n";
-		//opcion = ' ';
-		//while (true)
-		//{
-		//	cin >> opcion;
-		//	if (opcion == 'B' || opcion == 'b')break;
-		//}
 		visualizar_Alguna_Tabla();
 	}
 	void visualizar_Tabla_Completa(short n) {
@@ -420,32 +413,38 @@ private:
 		system("cls");
 		short cantidad=1;
 		cout << "Cuál es el criterio con el que filtrará esta vez\n\n";
+		cout << "EXCLUSIVAMENTE PARA COLUMNAS DE NÚMEROS\n\n";
 		cout << "a. Deseo ver el registro del mayor elemento\n";
 		cout << "b. Deseo ver el registro del menor elemento\n";
-		cout << "c. Deseo ver el registro del/de los elementos que sean iguales al elemento que yo ingrese\n";
-		cout << "d. Deseo ver el registro del/de los elementos que inicien con el caracter que yo ingrese\n";
-		cout << "e. Deseo ver el registro del/de los elementos que finalicen con el caracter que yo ingrese\n";
-		cout << "f. Deseo ver el registro del/de los elementos que contengan el caracter que yo ingrese\n";
-		cout << "g. Deseo ver el registro del/de los elementos que no contengan el caracter que yo ingrese\n\n";
+		cout << "c. Deseo ver el registro del/de los elementos que sean mayores al número que yo ingrese\n";
+		cout << "d. Deseo ver el registro del/de los elementos que sean menores al número que yo ingrese\n\n";
+		cout << "PARA COLUMNA DE CUALQUIER TIPO\n\n";
+		cout << "e. Deseo ver el registro del/de los elementos que sean iguales al elemento que yo ingrese\n";
+		cout << "f. Deseo ver el registro del/de los elementos que inicien con el caracter que yo ingrese\n";
+		cout << "g. Deseo ver el registro del/de los elementos que finalicen con el caracter que yo ingrese\n";
+		cout << "h. Deseo ver el registro del/de los elementos que contengan el caracter que yo ingrese\n";
+		cout << "i. Deseo ver el registro del/de los elementos que no contengan el caracter que yo ingrese\n\n";
 		cout << "Ingrese la letra de la opcion quec desee ejecutar o\n";
-		cout << "Presione X para regresar...\n";
+		cout << "Presione B para regresar...\n";
 		char opcion = ' ';
 		while (true)
 		{
 			cin >> opcion;
 			if (opcion == 'a' || opcion == 'b' || opcion == 'c' || opcion == 'd' || opcion == 'e' ||
-				opcion == 'f' || opcion == 'g' || opcion == 'X' || opcion == 'x')break;
+				opcion == 'f' || opcion == 'g' || opcion=='h' || opcion=='i'|| opcion == 'B' || opcion == 'b')break;
 		}
 		switch (opcion)
 		{
-		case 'a':	filtrar_Tabla_Por_Criterio(n,9,cantidad); break;//el n es el numero de la tabla a filtrar
+		case 'a':	filtrar_Tabla_Por_Criterio(n,9,cantidad); break;
 		case 'b':	filtrar_Tabla_Por_Criterio(n,8, cantidad); break;
-		case 'c':	filtrar_Tabla_Por_Criterio(n,3, cantidad); break;
-		case 'd':	filtrar_Tabla_Por_Criterio(n,4, cantidad); break;
-		case 'e':	filtrar_Tabla_Por_Criterio(n,5, cantidad); break;
-		case 'f':	filtrar_Tabla_Por_Criterio(n,6, cantidad); break;
-		case 'g':	filtrar_Tabla_Por_Criterio(n,7, cantidad); break;// 1 y 2 no están porque no tienen concordancia con el menu de opciones
-		case 'X' || 'x':
+		case 'c':	filtrar_Tabla_Por_Criterio(n,1, cantidad); break;
+		case 'd':	filtrar_Tabla_Por_Criterio(n,2, cantidad); break;
+		case 'e':	filtrar_Tabla_Por_Criterio(n,3, cantidad); break;
+		case 'f':	filtrar_Tabla_Por_Criterio(n,4, cantidad); break;
+		case 'g':	filtrar_Tabla_Por_Criterio(n,5, cantidad); break;
+		case 'h':   filtrar_Tabla_Por_Criterio(n,6, cantidad); break;
+		case 'i':   filtrar_Tabla_Por_Criterio(n,7, cantidad); break;
+		case 'B' || 'b':
 			break;
 		default:
 			break;

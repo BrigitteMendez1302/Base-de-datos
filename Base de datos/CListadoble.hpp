@@ -5,9 +5,7 @@ template<class T>
 class CLista
 {
 private:
-
 	template <class T>
-
 	class CNodo
 	{
 	public:

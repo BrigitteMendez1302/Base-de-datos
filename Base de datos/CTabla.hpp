@@ -10,7 +10,7 @@ class CTabla {
 	int cantidaddecolumnas, cantidaddecolumnasesp;
 	vector<vector<string>*>* datosdelatabla;
 	CArbolvsl<vector<string>*>* abbF;
-	vector<CColumna*>columnas;//**
+	vector<CColumna*>columnas;
 	string nombredelatabla;
 	ofstream archivo;
 	CLista<vector<string>*>* lista;
@@ -210,9 +210,6 @@ public:
 			if (tipoFiltro == 6)cout << "valores que contienen: ";
 			if (tipoFiltro == 7)cout << "valores que no contienen: ";
 			cin >> valor;
-			//if (cantidad == 2) {
-			//	cout << "Digite la segunda columna que quiere filtrar : ";cin >> nColumna1;
-			//}
 			_filtrar(nColumna, tipoFiltro, valor);
 		}
 		else _filtrar(nColumna, tipoFiltro);//int
@@ -222,7 +219,7 @@ public:
 		this->lista = new CLista<vector<string>*>();
 		//1
 		auto mayorQue = [=](vector<string>* a)->void {
-			if (a->at(nColumna - 1) > valor) {
+			if (to_int(a->at(nColumna - 1)) > to_int(valor)) {
 				lista->insertarAlFinal(a);
 				for (int i = 0; i < a->size(); i++)cout << a->at(i) << " ";
 			}
@@ -230,7 +227,7 @@ public:
 		};
 		//2
 		auto menorQue = [=](vector<string>* a)->void {
-			if (a->at(nColumna - 1) < valor) {
+			if (to_int(a->at(nColumna - 1)) < to_int(valor)) {
 				lista->insertarAlFinal(a);
 				for (int i = 0; i < a->size(); i++)cout << a->at(i) << " ";
 			}
