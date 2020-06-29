@@ -30,7 +30,7 @@ public:
 		this->basededatos->gettablainpos(0)->agregarcolumna(2, "Intis");
 		this->basededatos->gettablainpos(0)->getcolumnainpos(0)->agregardato("14");
 		this->basededatos->gettablainpos(0)->getcolumnainpos(0)->agregardato("12");
-		this->basededatos->gettablainpos(0)->getcolumnainpos(0)->agregardato("9");
+		this->basededatos->gettablainpos(0)->getcolumnainpos(0)->agregardato("44");
 		this->basededatos->gettablainpos(0)->getcolumnainpos(0)->agregardato("44");
 		this->basededatos->gettablainpos(0)->getcolumnainpos(1)->agregardato("569");
 		this->basededatos->gettablainpos(0)->getcolumnainpos(1)->agregardato("145");
@@ -463,6 +463,8 @@ private:
 		short n = basededatos->gettablainpos(numtabla - 1)->getcantidaddecolumnas();
 		//una varible temporal
 		string temp;
+		this->numvecesquepuedesvisualizar = 0;
+		basededatos->gettablainpos(numtabla - 1)->destructordatosdelatabla();
 		for (size_t i = 0; i < n; i++)
 		{
 			cout << "Dato para la columna " << basededatos->gettablainpos(numtabla - 1)->getcolumnainpos(i)->getminombre() << ":\n";
@@ -499,6 +501,8 @@ private:
 	}
 
 	void agregar_Columna_Tipo(int n, int quetablaes) {
+		this->numvecesquepuedesvisualizar = 0;
+		basededatos->gettablainpos(quetablaes - 1)->destructordatosdelatabla();
 		string nombre = "";
 		cout << "Ingrese nombre de la columna:\n";
 		cin >> nombre;

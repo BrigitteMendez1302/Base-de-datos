@@ -52,8 +52,16 @@ public:
 	char to_char(string dato) {
 		return dato.at(0);
 	}
+	void destructordatosdelatabla() {
+		datosdelatabla->clear();
+		delete datosdelatabla;
+	}
+	void inicializadatosdelatabla() {
+		this->datosdelatabla = new  vector<vector<string>*>();
+	}
 	void indexar() {
 		vector<string>* fila;
+		inicializadatosdelatabla();
 		cout << "Cantidad de datos de la columna : " << columnas.at(0)->misdatos->size() << endl;
 		cout << "Cantidad de columnas : " << columnas.size() << endl<<endl;
 		for (short i = 0; i < columnas.at(0)->misdatos->size(); i++)
@@ -229,7 +237,8 @@ public:
 
 	}
 	void mandaraarchivotxt(string nombredearchivo) {
-		archivo.open(nombredearchivo);
+		string csv = nombredearchivo+".csv";
+		archivo.open(csv);
 		string fila;
 		for (short i = 0; i < columnas.size(); i++)
 		{
@@ -252,7 +261,6 @@ public:
 	CTabla(string nombre) {
 		this->cantidaddecolumnas = 0;
 		this-> cantidaddecolumnasesp = 0;
-		datosdelatabla = new  vector<vector<string>*>();
 		this->nombredelatabla = nombre;
 	}
 	~CTabla() {
