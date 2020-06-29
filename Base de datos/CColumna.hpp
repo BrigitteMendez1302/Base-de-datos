@@ -6,11 +6,6 @@ using namespace std;
 class CColumna {
 	vector<string>*misdatos;
 	int mitipodedato;
-	//1 short
-	//2 int
-	//3 long long
-	//4 char
-	//5 string
 	int cant;
 	string nombre;
 public:
@@ -40,7 +35,9 @@ public:
 	vector<string>* getmisdatos() {
 		return this->misdatos;
 	}
-
+	void setmisdatos(vector<string>* misdatos) {
+		this->misdatos = misdatos;
+	}
 	friend class CTabla;
 	friend class Database;
 };

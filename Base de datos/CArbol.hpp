@@ -1,7 +1,7 @@
 #pragma once
 #ifndef CARBOL_HPP
 #define CARBOL_HPP
-#include "CNodoindex.hpp"
+#include "CListadoble.hpp"
 template <class G>
 class CArbolbb {
 private:
@@ -57,7 +57,6 @@ private:
 			return altura_izquierda > altura_derecha ? altura_izquierda : altura_derecha;
 		}
 	}
-
 	void _insertar(CNodoarbol<G> *& nodo, G& valor, function<bool(G, G)> criterio) {
 		if (nodo == nullptr) {
 			nodo = new CNodoarbol<G>(valor);
@@ -71,18 +70,14 @@ private:
 		}
 
 	}
-	//CNodoarbol<G>* _obtener(CNodoarbol<G>* nodo, G e) {
-	//	if (nodo == nullptr) return false;
-	//	else {
-	//		if (e == nodo->valor) return nodo;
-	//		else if (e >= nodo->valor) {
-	//			return _buscar(nodo->derecha, e);
-	//		}
-	//		else {
-	//			return _buscar(nodo->izquierda, e);
-	//		}
-	//	}
-	//}
+	void _guardarDatosEnLista(CNodoarbol<G>* nodo, CLista<G>*& lista) {
+		if (nodo == nullptr)return;
+		else {
+			_guardarDatosEnLista(nodo->izquierda, lista);
+			lista->insertarAlFinal(nodo->valor);
+			_guardarDatosEnLista(nodo->derecha, lista);
+		}
+	}
 	void _buscar(CNodoarbol<G> * nodo, G valor, bool& encontrar) {
 		if (nodo == nullptr) {
 			encontrar = false;
@@ -183,6 +178,9 @@ public:
 			criterio_impresion(mayores.top());
 			mayores.pop();
 		}
+	}
+	void cargarListaConDatos(CLista<G>*& lista) {
+		_guardarDatosEnLista(raiz, lista);
 	}
 	void buscarMenor(function <void(G)>criterio_impresion) {
 		_buscarMenor(criterio_impresion);

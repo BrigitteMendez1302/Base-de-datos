@@ -223,13 +223,29 @@ private:
 		while (true)
 		{
 			system("cls");
-			cout << "Tabla " << basededatos->gettablainpos(n-1)->getnombredelatabla() << endl;
+			cout << "Tabla " << basededatos->gettablainpos(n - 1)->getnombredelatabla() << endl;
 			cout << "Ingrese el numero de columna con el cual se ordenará la tabla \n";
 			cin >> columna;
-			if (columna > 0 && columna <= basededatos->gettablainpos(n-1)->getcantidaddecolumnas()) break;
+			if (columna > 0 && columna <= basededatos->gettablainpos(n - 1)->getcantidaddecolumnas()) break;
 		}
-		basededatos->gettablainpos(n-1)->indexararbol(columna-1);
-		basededatos->gettablainpos(n-1)->getabbF()->enorden(lambda0);
+		basededatos->gettablainpos(n - 1)->indexararbol(columna - 1);
+		basededatos->gettablainpos(n - 1)->getabbF()->enorden(lambda0);
+		string nombrearchivo; bool yes = false;
+		cout << "Desea exportar esta tabla a un archivo plano ?(1: sí, 0: no) : ";
+		while (true)
+		{
+			cin >> yes;
+			if (yes == 0 || yes == 1)break;
+		}
+		if (yes) {
+			cout << "Nombre para su archivo : ";cin >> nombrearchivo;
+			cout << "Recordatorio:\n\n";
+			cout << "El archivo que generará este programa, separará las columnas por una ',' y las filas por un '\\n'.\n\n";
+			cout << "Transfiriendo datos...\n";
+			basededatos->gettablainpos(n - 1)->crear_archivo_lista(nombrearchivo);
+			cout << "Tabla pasada a texto plano con exito.\n";
+			cout << "Ubicación: Carpeta JUTTE en el disco D\n\n";
+		}
 		cout << "Presione B para regresar...\n";
 		char opcion = ' ';
 		while (true)
@@ -241,6 +257,8 @@ private:
 	}
 	void visualizar_Tabla_Por_Columna_Seleccionadas(int n) {
 		int columna1=0,cantidad = 0;
+		string nombrearchivo;
+		bool yes;
 		while (true)
 		{
 			system("cls");
@@ -259,6 +277,22 @@ private:
 		}
 		basededatos->gettablaauxnodefinida()->indexar();
 		basededatos->gettablaauxnodefinida()->mostrarregistros();
+		cout << "Desea exportar esta tabla a un archivo plano ?(1: sí, 0: no) : ";
+		while (true)
+		{
+			cin >> yes;
+			if (yes == 0 || yes == 1)break;
+		}
+		if (yes) {
+			cout << "Nombre para su archivo : ";cin >> nombrearchivo;
+			cout << "Recordatorio:\n\n";
+			cout << "El archivo que generará este programa, separará las columnas por una ',' y las filas por un '\\n'.\n\n";
+			cout << "Transfiriendo datos...\n";
+			this->basededatos->gettablaauxnodefinida()->mandaraarchivotxt(nombrearchivo);
+			cout << "Tabla pasada a texto plano con exito.\n";
+			cout << "Ubicación: Carpeta JUTTE en el disco D\n\n";
+		}
+
 		basededatos->destructortablanodefinida();
 		cout << "Presione B para regresar...\n";
 		char opcion = ' ';
@@ -339,7 +373,7 @@ private:
 		//aqui se modificaria para cualquier tabla
 		this->basededatos->gettablainpos(0)->mandaraarchivotxt(nombrearchivo);
 		cout << "Tabla pasada a texto plano con exito.\n";
-		cout << "Ubicación: Carpeta de este proyecto\n\n";
+		cout << "Ubicación: Carpeta JUTTE en el disco D\n\n";
 		cout << "Presione B para regresar...\n";
 		char opcion;
 		while (true)
@@ -491,9 +525,13 @@ private:
 	void filtrar_Tabla_Por_Criterio(int n, int opcionafiltrar) {
 		basededatos->settablaauxdefinida(basededatos->gettablainpos(n - 1));
 		basededatos->gettablaauxdefinida()->filtrar(opcionafiltrar);
-		//aqui se colocara los metodos para filtrar la tabla
-		//validar que sea hasta 2 filtrados
 		
+		//validar que sea hasta 2 filtrados
+		bool yes;
+		cout << "Desea seguir filtrando ?(Esta sería la última vez, max:2) : ";cin >> yes;
+	/*	if (yes) {
+			basededatos->gettablaauxdefinida()->filtrar(opcionafiltrar);
+		}*/
 		cout << "Presione B para regresar...\n";
 		char opcion = ' ';
 		while (true)

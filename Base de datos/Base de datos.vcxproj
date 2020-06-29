@@ -129,13 +129,9 @@
     <ClInclude Include="CArbol.hpp" />
     <ClInclude Include="CBasededatos.hpp" />
     <ClInclude Include="CColumna.hpp" />
-    <ClInclude Include="CDato.hpp" />
-    <ClInclude Include="CFila.hpp" />
     <ClInclude Include="CMenu.h" />
-    <ClInclude Include="CNodoindex.hpp" />
     <ClInclude Include="CTabla.hpp" />
     <ClInclude Include="CListadoble.hpp" />
-    <ClInclude Include="Probando.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -26,28 +26,16 @@
     <ClInclude Include="CTabla.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CDato.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CFila.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="CColumna.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CArbol.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CNodoindex.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="CListadoble.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CMenu.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Probando.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

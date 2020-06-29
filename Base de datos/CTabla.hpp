@@ -12,6 +12,8 @@ class CTabla {
 	vector<CColumna*>columnas;//**
 	string nombredelatabla;
 	ofstream archivo;
+	CLista<vector<string>*>* lista;
+
 public:
 	void agregarcolumna(int mitipodedato, string nombre) {
 		columnas.push_back(new CColumna(mitipodedato, nombre));
@@ -33,6 +35,9 @@ public:
 	}
 	CArbolbb<vector<string>*>* getabbF() {
 		return this->abbF;
+	}
+	CLista<vector<string>*>* getlista() {
+		return this->lista;
 	}
 	int getcantidaddecolumnas() {
 		return this->cantidaddecolumnas;
@@ -63,7 +68,7 @@ public:
 		vector<string>* fila;
 		inicializadatosdelatabla();
 		cout << "Cantidad de datos de la columna : " << columnas.at(0)->misdatos->size() << endl;
-		cout << "Cantidad de columnas : " << columnas.size() << endl<<endl;
+		cout << "Cantidad de columnas : " << columnas.size() << endl << endl;
 		for (short i = 0; i < columnas.at(0)->misdatos->size(); i++)
 		{
 			fila = new vector<string>;
@@ -91,7 +96,6 @@ public:
 		auto compvalores = [=](vector<string>* a, vector<string>* b)->bool {
 			return (a->at(ncol).compare(b->at(ncol))) < 0;
 		};
-		
 		abbF = new CArbolbb<vector<string>*>();
 		for (short i = 0; i < columnas.at(0)->misdatos->size(); i++)
 		{
@@ -120,7 +124,7 @@ public:
 	void mostrarregistros() {
 		for (short i = 0; i < columnas.size(); i++)
 		{
-			cout << columnas.at(i)->getminombre() <<"\t";
+			cout << columnas.at(i)->getminombre() << "\t";
 		}
 		cout << endl;
 		for (int i = 0; i < datosdelatabla->size(); ++i) {
@@ -132,13 +136,59 @@ public:
 		cout << "Tamaño de la tabla (filas) " << datosdelatabla->size() << endl;
 		cout << "Tamaño de la tabla (columnas) " << datosdelatabla->at(0)->size() << endl;
 	}
+	void crear_archivo_lista(string nombredearchivo) {
+		lista = new CLista<vector<string>*>();
+		abbF->cargarListaConDatos(lista);
+		vector<string>* aux = new vector<string>();
+		string csv = "/" + nombredearchivo + ".csv";
+		string fila;
+		archivo.open("D:/JUTTE DB" + csv);
+		cout << "cantidad: " << lista->size();
+		cout << endl;
+		for (int i = 0; i < lista->size(); i++)
+		{
+			aux = lista->obtenerElemento(i);
+			for (int j = 0; j < aux->size(); j++) {
+				if (j == aux->size() - 1) fila += aux->at(j) + "\n";
+				else fila += aux->at(j) + ",";
+			}
+			archivo << fila; fila = "";
+			aux->clear();
+		}
+		archivo.close();
+	}
+
+	void mandaraarchivotxt(string nombredearchivo) {
+		string csv = "/" + nombredearchivo + ".csv";
+		string txt = nombredearchivo + ".txt";
+		archivo.open("D:/JUTTE DB" + csv);
+		string fila;
+		for (short i = 0; i < columnas.size(); i++)
+		{
+			if (i == columnas.size() - 1) fila += columnas.at(i)->getminombre() + "\n";
+			else fila += columnas.at(i)->getminombre() + ",";
+		}
+		archivo << fila;
+		fila = "";
+		for (short i = 0; i < columnas.at(0)->misdatos->size(); i++)
+		{
+			for (short j = 0; j < columnas.size(); j++)
+			{
+				if (j == columnas.size() - 1) fila += columnas.at(j)->getmisdatos()->at(i) + "\n";
+				else fila += columnas.at(j)->getmisdatos()->at(i) + ",";
+			}
+			archivo << fila; fila = "";
+		}
+		archivo.close();
+	}
+
 	void filtrar(int tipoFiltro) {
 		int nColumna, cantidad;
 		string valor = "";
 		cout << "\nColumnas con las que contamos hasta el momento\n";
 		for (short i = 0; i < getcantidaddecolumnas(); i++)
 		{
-			cout << i + 1 << ") " << getcolumnainpos(i)->getminombre()<<endl;
+			cout << i + 1 << ") " << getcolumnainpos(i)->getminombre() << endl;
 		}
 		cout << "\nIndique el número de columnas a filtrar(max. 2):\n";
 		while (true)
@@ -152,8 +202,8 @@ public:
 			cout << "Digite la columna que quiere filtrar : "; cin >> nColumna;
 			if (nColumna >= 1 && nColumna <= getcantidaddecolumnas())break;
 		}
-		indexararbol(nColumna-1);
-		//hacer las validaciones para el casteo
+		indexararbol(nColumna - 1);
+
 		cout << "Filtrar por...\n";
 		if (tipoFiltro >= 1 && tipoFiltro <= 7) {
 			if (tipoFiltro == 1)cout << "valores mayores que: ";
@@ -172,44 +222,49 @@ public:
 		//incluir el "Mayor que todo" y el menor que todo
 		//1
 		auto mayorQue = [=](vector<string>* a)->void {
-			if (a->at(nColumna-1) > valor)
+			if (a->at(nColumna - 1) > valor)
 				for (int i = 0; i < a->size(); i++)cout << a->at(i) << " ";
 			cout << endl;
 		};
 		//2
 		auto menorQue = [=](vector<string>* a)->void {
-			if (a->at(nColumna-1) < valor)
+			if (a->at(nColumna - 1) < valor)
 				for (int i = 0; i < a->size(); i++)cout << a->at(i) << " ";
 			cout << endl;
 		};
 		//3
 		auto igualA = [=](vector<string>* a)->void {
-			if (a->at(nColumna-1) == valor)
+			if (a->at(nColumna - 1) == valor) {
 				for (int i = 0; i < a->size(); i++)cout << a->at(i) << " ";
+			}
 			cout << endl;
 		};
 		//4
 		auto iniciaCon = [=](vector<string>* a)->void {
-			if (a->at(nColumna-1).at(0) == valor.at(0))
+			if (a->at(nColumna - 1).at(0) == valor.at(0)) {
 				for (int i = 0; i < a->size(); i++)cout << a->at(i) << " ";
+			};
 			cout << endl;
 		};
 		//5
 		auto terminaCon = [=](vector<string>* a)->void {
-			if (a->at(nColumna-1).at(a->at(nColumna-1).size() - 1) == valor.at(0))
+			if (a->at(nColumna - 1).at(a->at(nColumna - 1).size() - 1) == valor.at(0)) {
 				for (int i = 0; i < a->size(); i++)cout << a->at(i) << " ";
+			}
 			cout << endl;
 		};
 		//6
 		auto estaContenidoEn = [=](vector<string>* a)->void {
-			if (a->at(nColumna-1).find(valor)< string::npos)
+			if (a->at(nColumna - 1).find(valor) < string::npos) {
 				for (int i = 0; i < a->size(); i++)cout << a->at(i) << " ";
+			}
 			cout << endl;
 		};
 		//7
 		auto noEstaContenidoEn = [=](vector<string>* a)->void {
-			if (a->at(nColumna-1).find(valor) == string::npos)
+			if (a->at(nColumna - 1).find(valor) == string::npos) {
 				for (int i = 0; i < a->size(); i++)cout << a->at(i) << " ";
+			} 
 			cout << endl;
 		};
 		//8
@@ -217,6 +272,7 @@ public:
 			for (int i = 0; i < a->size(); i++)cout << a->at(i) << " ";
 			cout << endl;
 		};
+		//filtrar hasta 2 columnas
 		system("cls");
 		cout << "\n\t\tFiltrado\n\n";
 		cout << "Su tabla con los filtros correspondientes:\n";
@@ -231,33 +287,8 @@ public:
 		case 7: abbF->enorden(noEstaContenidoEn); break;
 		case 8: abbF->buscarMenor(imprimir); break;
 		case 9: abbF->buscarMayor(imprimir); break;
-		default:
-			break;
+		default: break;
 		}
-
-	}
-	void mandaraarchivotxt(string nombredearchivo) {
-		string csv = nombredearchivo+".csv";
-		string txt = nombredearchivo + ".txt";
-		archivo.open(csv);
-		string fila;
-		for (short i = 0; i < columnas.size(); i++)
-		{
-			if (i == columnas.size() - 1) fila += columnas.at(i)->getminombre() + "\n";
-			else fila+= columnas.at(i)->getminombre() + ",";
-		}
-		archivo << fila;
-		fila = "";
-		for (short i = 0; i < columnas.at(0)->misdatos->size(); i++)
-		{
-			for (short j = 0; j < columnas.size(); j++)
-			{
-				if (j == columnas.size() - 1) fila += columnas.at(j)->getmisdatos()->at(i)+"\n";	
-				else fila+=columnas.at(j)->getmisdatos()->at(i) + ",";
-			}
-			archivo << fila; fila = "";
-		}
-		archivo.close();
 	}
 	CTabla(string nombre) {
 		this->cantidaddecolumnas = 0;
@@ -268,7 +299,6 @@ public:
 		columnas.clear();
 		this->datosdelatabla->clear();
 		delete datosdelatabla;
-		//abbF->borrar_todo();
 	}
 	friend class Database;
 };
