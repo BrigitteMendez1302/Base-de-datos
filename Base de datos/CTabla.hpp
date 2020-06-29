@@ -119,7 +119,6 @@ public:
 			}
 			fila->clear(); delete fila;
 		}
-
 	}
 	void mostrarregistros() {
 		for (short i = 0; i < columnas.size(); i++)
@@ -136,13 +135,15 @@ public:
 		cout << "Tamaño de la tabla (filas) " << datosdelatabla->size() << endl;
 		cout << "Tamaño de la tabla (columnas) " << datosdelatabla->at(0)->size() << endl;
 	}
-	void crear_archivo_lista(string nombredearchivo) {
-		lista = new CLista<vector<string>*>();
-		abbF->cargarListaConDatos(lista);
+	void crear_archivo_lista(string nombredearchivo, int opcion) {
+		if (opcion == 1) {
+			this->lista = new CLista<vector<string>*>();
+			abbF->cargarListaConDatos(lista);
+		}
 		vector<string>* aux = new vector<string>();
 		string csv = "/" + nombredearchivo + ".csv";
 		string fila;
-		archivo.open("D:/JUTTE DB" + csv);
+		archivo.open("C:/JUTTE DB" + csv);
 		cout << "cantidad: " << lista->size();
 		cout << endl;
 		for (int i = 0; i < lista->size(); i++)
@@ -156,12 +157,13 @@ public:
 			aux->clear();
 		}
 		archivo.close();
+		this->lista->eliminarelementos();
 	}
 
 	void mandaraarchivotxt(string nombredearchivo) {
 		string csv = "/" + nombredearchivo + ".csv";
 		string txt = nombredearchivo + ".txt";
-		archivo.open("D:/JUTTE DB" + csv);
+		archivo.open("C:/JUTTE DB" + csv);
 		string fila;
 		for (short i = 0; i < columnas.size(); i++)
 		{
@@ -182,28 +184,20 @@ public:
 		archivo.close();
 	}
 
-	void filtrar(int tipoFiltro) {
-		int nColumna, cantidad;
+	void filtrar(int tipoFiltro, short cantidad) {
+		int nColumna, nColumna1;
 		string valor = "";
 		cout << "\nColumnas con las que contamos hasta el momento\n";
 		for (short i = 0; i < getcantidaddecolumnas(); i++)
 		{
 			cout << i + 1 << ") " << getcolumnainpos(i)->getminombre() << endl;
 		}
-		cout << "\nIndique el número de columnas a filtrar(max. 2):\n";
-		while (true)
-		{
-			cin >> cantidad;
-			if (cantidad == 1 || cantidad == 2)break;
-		}
-
 		while (true)
 		{
 			cout << "Digite la columna que quiere filtrar : "; cin >> nColumna;
 			if (nColumna >= 1 && nColumna <= getcantidaddecolumnas())break;
 		}
 		indexararbol(nColumna - 1);
-
 		cout << "Filtrar por...\n";
 		if (tipoFiltro >= 1 && tipoFiltro <= 7) {
 			if (tipoFiltro == 1)cout << "valores mayores que: ";
@@ -211,30 +205,39 @@ public:
 			if (tipoFiltro == 3)cout << "valores iguales a: ";
 			if (tipoFiltro == 4)cout << "valores que inician con: ";
 			if (tipoFiltro == 5)cout << "valores que terminan con: ";
-			if (tipoFiltro == 6)cout << "valores que contienen: ";//string
+			if (tipoFiltro == 6)cout << "valores que contienen: ";
 			if (tipoFiltro == 7)cout << "valores que no contienen: ";
 			cin >> valor;
+			//if (cantidad == 2) {
+			//	cout << "Digite la segunda columna que quiere filtrar : ";cin >> nColumna1;
+			//}
 			_filtrar(nColumna, tipoFiltro, valor);
 		}
-		if (tipoFiltro == 8 || tipoFiltro == 9)_filtrar(nColumna, tipoFiltro);//int
+		else _filtrar(nColumna, tipoFiltro);//int
 	}
-	void _filtrar(int nColumna, int opcionDeFiltrado, string valor = "") {
+	void _filtrar(int nColumna, int opcionDeFiltrado, string valor = "", int ncolumna = 1, int opcionDeFiltrado1 = 1) {
 		//incluir el "Mayor que todo" y el menor que todo
+		this->lista = new CLista<vector<string>*>();
 		//1
 		auto mayorQue = [=](vector<string>* a)->void {
-			if (a->at(nColumna - 1) > valor)
+			if (a->at(nColumna - 1) > valor) {
+				lista->insertarAlFinal(a);
 				for (int i = 0; i < a->size(); i++)cout << a->at(i) << " ";
+			}
 			cout << endl;
 		};
 		//2
 		auto menorQue = [=](vector<string>* a)->void {
-			if (a->at(nColumna - 1) < valor)
+			if (a->at(nColumna - 1) < valor) {
+				lista->insertarAlFinal(a);
 				for (int i = 0; i < a->size(); i++)cout << a->at(i) << " ";
+			}
 			cout << endl;
 		};
 		//3
 		auto igualA = [=](vector<string>* a)->void {
 			if (a->at(nColumna - 1) == valor) {
+				lista->insertarAlFinal(a);
 				for (int i = 0; i < a->size(); i++)cout << a->at(i) << " ";
 			}
 			cout << endl;
@@ -242,6 +245,7 @@ public:
 		//4
 		auto iniciaCon = [=](vector<string>* a)->void {
 			if (a->at(nColumna - 1).at(0) == valor.at(0)) {
+				lista->insertarAlFinal(a);
 				for (int i = 0; i < a->size(); i++)cout << a->at(i) << " ";
 			};
 			cout << endl;
@@ -249,12 +253,14 @@ public:
 		//5
 		auto terminaCon = [=](vector<string>* a)->void {
 			if (a->at(nColumna - 1).at(a->at(nColumna - 1).size() - 1) == valor.at(0)) {
+				lista->insertarAlFinal(a);
 				for (int i = 0; i < a->size(); i++)cout << a->at(i) << " ";
 			}
 			cout << endl;
 		};
 		//6
 		auto estaContenidoEn = [=](vector<string>* a)->void {
+			lista->insertarAlFinal(a);
 			if (a->at(nColumna - 1).find(valor) < string::npos) {
 				for (int i = 0; i < a->size(); i++)cout << a->at(i) << " ";
 			}
@@ -263,6 +269,7 @@ public:
 		//7
 		auto noEstaContenidoEn = [=](vector<string>* a)->void {
 			if (a->at(nColumna - 1).find(valor) == string::npos) {
+				lista->insertarAlFinal(a);
 				for (int i = 0; i < a->size(); i++)cout << a->at(i) << " ";
 			} 
 			cout << endl;

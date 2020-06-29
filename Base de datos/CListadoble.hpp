@@ -156,6 +156,12 @@ public:
 			return auxiliar->elemento;
 		}
 	}
+	void eliminarelementos() {
+		while (!esVacio())
+		{
+			this->eliminarAlFinal();
+		}
+	}
 	bool esVacio() { return cantidad == 0; }
 
 	short size() { return cantidad; }

@@ -4,14 +4,13 @@
 #include <vector>
 #include <functional>
 #include<stack>
-//#include "CBasededatos.hpp"
 #include "CMenu.h"
 using namespace std;
 using namespace System;
 int main() {
 	setlocale(LC_ALL, "Spanish");
-	//Console::BackgroundColor = ConsoleColor::White;
-	//Console::ForegroundColor = ConsoleColor::Black;
+	Console::BackgroundColor = ConsoleColor::White;
+	Console::ForegroundColor = ConsoleColor::Black;
 	CMenu* nuevo = new CMenu();
 	//DataBase *basededatos = new DataBase();
 	//string paracolumna;

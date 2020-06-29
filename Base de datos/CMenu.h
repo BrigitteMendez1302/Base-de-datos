@@ -242,7 +242,7 @@ private:
 			cout << "Recordatorio:\n\n";
 			cout << "El archivo que generará este programa, separará las columnas por una ',' y las filas por un '\\n'.\n\n";
 			cout << "Transfiriendo datos...\n";
-			basededatos->gettablainpos(n - 1)->crear_archivo_lista(nombrearchivo);
+			basededatos->gettablainpos(n - 1)->crear_archivo_lista(nombrearchivo,1);
 			cout << "Tabla pasada a texto plano con exito.\n";
 			cout << "Ubicación: Carpeta JUTTE en el disco D\n\n";
 		}
@@ -413,12 +413,8 @@ private:
 
 	void filtrar_Tabla(short n) {
 		system("cls");
-		//crear un objeto tabla dinamica...
-		//Ctabla* nuevo;
-		//inicializar objeto tabla dinamica..
-		//nuevo= obtener_tabla(n);
-		//cout<<nuevo->getNombre();
-		cout << "Cuál es el criterio con el que filtrará su tabla?\n\n";
+		short cantidad=1;
+		cout << "Cuál es el criterio con el que filtrará esta vez\n\n";
 		cout << "a. Deseo ver el registro del mayor elemento\n";
 		cout << "b. Deseo ver el registro del menor elemento\n";
 		cout << "c. Deseo ver el registro del/de los elementos que sean iguales al elemento que yo ingrese\n";
@@ -437,13 +433,13 @@ private:
 		}
 		switch (opcion)
 		{
-		case 'a':	filtrar_Tabla_Por_Criterio(n,9); break;//el n es el numero de la tabla a filtrar
-		case 'b':	filtrar_Tabla_Por_Criterio(n,8); break;
-		case 'c':	filtrar_Tabla_Por_Criterio(n,3); break;
-		case 'd':	filtrar_Tabla_Por_Criterio(n,4); break;
-		case 'e':	filtrar_Tabla_Por_Criterio(n,5); break;
-		case 'f':	filtrar_Tabla_Por_Criterio(n,6); break;
-		case 'g':	filtrar_Tabla_Por_Criterio(n,7); break;// 1 y 2 no están porque no tienen concordancia con el menu de opciones
+		case 'a':	filtrar_Tabla_Por_Criterio(n,9,cantidad); break;//el n es el numero de la tabla a filtrar
+		case 'b':	filtrar_Tabla_Por_Criterio(n,8, cantidad); break;
+		case 'c':	filtrar_Tabla_Por_Criterio(n,3, cantidad); break;
+		case 'd':	filtrar_Tabla_Por_Criterio(n,4, cantidad); break;
+		case 'e':	filtrar_Tabla_Por_Criterio(n,5, cantidad); break;
+		case 'f':	filtrar_Tabla_Por_Criterio(n,6, cantidad); break;
+		case 'g':	filtrar_Tabla_Por_Criterio(n,7, cantidad); break;// 1 y 2 no están porque no tienen concordancia con el menu de opciones
 		case 'X' || 'x':
 			break;
 		default:
@@ -522,16 +518,25 @@ private:
 		modificar_Tabla(numtabla);
 	}
 
-	void filtrar_Tabla_Por_Criterio(int n, int opcionafiltrar) {
+	void filtrar_Tabla_Por_Criterio(int n, int opcionafiltrar, short cantidad) {
+		bool yes; string nombrearchivo;
 		basededatos->settablaauxdefinida(basededatos->gettablainpos(n - 1));
-		basededatos->gettablaauxdefinida()->filtrar(opcionafiltrar);
-		
-		//validar que sea hasta 2 filtrados
-		bool yes;
-		cout << "Desea seguir filtrando ?(Esta sería la última vez, max:2) : ";cin >> yes;
-	/*	if (yes) {
-			basededatos->gettablaauxdefinida()->filtrar(opcionafiltrar);
-		}*/
+		basededatos->gettablaauxdefinida()->filtrar(opcionafiltrar, cantidad);
+		cout << "Desea exportar esta tabla a un archivo plano ?(1: sí, 0: no) : ";
+		while (true)
+		{
+			cin >> yes;
+			if (yes == 0 || yes == 1)break;
+		}
+		if (yes) {
+			cout << "Nombre para su archivo : ";cin >> nombrearchivo;
+			cout << "Recordatorio:\n\n";
+			cout << "El archivo que generará este programa, separará las columnas por una ',' y las filas por un '\\n'.\n\n";
+			cout << "Transfiriendo datos...\n";
+			this->basededatos->gettablaauxdefinida()->crear_archivo_lista(nombrearchivo,0);
+			cout << "Tabla pasada a texto plano con exito.\n";
+			cout << "Ubicación: Carpeta JUTTE en el disco C\n\n";
+		}
 		cout << "Presione B para regresar...\n";
 		char opcion = ' ';
 		while (true)

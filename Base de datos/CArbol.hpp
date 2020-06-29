@@ -19,12 +19,12 @@ private:
 	CNodoarbol<G> *raiz;
 	long cantidad;
 private:
-	G _buscarMayor() {
+	void _buscarMayor(function <void(G)>criterio_impresion) {
 		CNodoarbol<G>* mayor = raiz;
 		while (mayor->derecha != nullptr) {
 			mayor = mayor->derecha;
 		}
-		return mayor->valor;
+		criterio_impresion(mayor->valor);
 	}
 
 	void _buscarMenor(function <void(G)>criterio_impresion) {
@@ -166,18 +166,7 @@ public:
 		_posorden(raiz, criterio_impresion);
 	}
 	void buscarMayor(function <void(G)>criterio_impresion) {
-		stack<G> mayores;
-		G mayor = _buscarMayor();
-		CNodoarbol<G>* aux = this->raiz;
-		while (aux->derecha != nullptr) {
-			if (aux->valor == mayor) mayores.push(aux->valor);
-			aux = aux->derecha;
-		}
-		mayores.push(mayor);
-		while (!mayores.empty()) {
-			criterio_impresion(mayores.top());
-			mayores.pop();
-		}
+		_buscarMayor(criterio_impresion);
 	}
 	void cargarListaConDatos(CLista<G>*& lista) {
 		_guardarDatosEnLista(raiz, lista);
