@@ -363,15 +363,19 @@ private:
 
 	void mandar_El_Regitro_A_Un_Archivo_Plano() {
 		system("cls");
-		string nombrearchivo;
+		string nombrearchivo; int opc;
 		cout << "\n\t\tMandar el registro a archivo plano\n\n";
 		cout << "Nombre del archivo : ";cin >> nombrearchivo;
 		cout << "Recordatorio:\n\n";
-		cout << "El archivo que generará este programa, separará las columnas por una ',' y las filas por un '\n'.\n\n";
+		cout << "El archivo que generará este programa, separará las columnas por una ',' y las filas por un '\\n'.\n\n";
 		cout << "Transfiriendo datos...\n";
-		_sleep(300);
-		//aqui se modificaria para cualquier tabla
-		this->basededatos->gettablainpos(0)->mandaraarchivotxt(nombrearchivo);
+		cout << "Qué tabla desea filtrar?\n\n";
+		for (short i = 0; i < basededatos->getcantidaddetablas(); i++)
+		{
+			cout << i + 1 << ") Tabla " << i + 1 << " : " << basededatos->gettablainpos(i)->getnombredelatabla() << " \n";
+		}
+		cout << "Ingrese el número de tabla que desea exportar o\n";cin >> opc;
+		this->basededatos->gettablainpos(opc-1)->mandaraarchivotxt(nombrearchivo);
 		cout << "Tabla pasada a texto plano con exito.\n";
 		cout << "Ubicación: Carpeta JUTTE en el disco D\n\n";
 		cout << "Presione B para regresar...\n";
@@ -384,7 +388,8 @@ private:
 		mas_Opciones();
 	}
 
-	//Fse 3
+	//Fse 4
+
 
 	void modificar_Tabla(short n) {
 		system("cls");
@@ -401,8 +406,8 @@ private:
 		}
 		switch (opcion)
 		{
-		case '1':	agregar_Columna(n); break;//modificar para pasar referencia a tabla
-		case '2':	agregar_Fila_O_Registro(n); break;//modificar para pasar referencia a tabla
+		case '1':	agregar_Columna(n); break;
+		case '2':	agregar_Fila_O_Registro(n); break;
 		case 'B' || 'b':
 			break;
 		default:

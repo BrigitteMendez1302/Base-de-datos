@@ -5,10 +5,11 @@
 #include <iostream>
 #include <fstream>
 using namespace std;
+
 class CTabla {
 	int cantidaddecolumnas, cantidaddecolumnasesp;
 	vector<vector<string>*>* datosdelatabla;
-	CArbolbb<vector<string>*>* abbF;
+	CArbolvsl<vector<string>*>* abbF;
 	vector<CColumna*>columnas;//**
 	string nombredelatabla;
 	ofstream archivo;
@@ -33,7 +34,7 @@ public:
 	CColumna* getcolumnainpos(int pos) {
 		return columnas.at(pos);
 	}
-	CArbolbb<vector<string>*>* getabbF() {
+	CArbolvsl<vector<string>*>* getabbF() {
 		return this->abbF;
 	}
 	CLista<vector<string>*>* getlista() {
@@ -96,7 +97,7 @@ public:
 		auto compvalores = [=](vector<string>* a, vector<string>* b)->bool {
 			return (a->at(ncol).compare(b->at(ncol))) < 0;
 		};
-		abbF = new CArbolbb<vector<string>*>();
+		abbF = new CArbolvsl<vector<string>*>();
 		for (short i = 0; i < columnas.at(0)->misdatos->size(); i++)
 		{
 			fila = new vector<string>;
@@ -140,6 +141,7 @@ public:
 			this->lista = new CLista<vector<string>*>();
 			abbF->cargarListaConDatos(lista);
 		}
+		string jutte = "C:/JUTTE DB";
 		vector<string>* aux = new vector<string>();
 		string csv = "/" + nombredearchivo + ".csv";
 		string fila;
