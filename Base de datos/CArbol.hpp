@@ -18,7 +18,7 @@ class CArbolvsl
 		}
 	};
 	CNodovsl<G> * raiz;
-	int cantidad;
+	long long cantidad;
 
 	void _eliminarTodo(CNodovsl<G>* node) {
 		if (node != nullptr) {

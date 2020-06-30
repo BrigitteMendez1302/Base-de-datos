@@ -141,11 +141,10 @@ public:
 			this->lista = new CLista<vector<string>*>();
 			abbF->cargarListaConDatos(lista);
 		}
-		string jutte = "C:/JUTTE DB";
 		vector<string>* aux = new vector<string>();
-		string csv = "/" + nombredearchivo + ".csv";
+		string csv = nombredearchivo + ".csv";
 		string fila;
-		archivo.open("C:/JUTTE DB" + csv);
+		archivo.open(csv);
 		cout << "cantidad: " << lista->size();
 		cout << endl;
 		for (int i = 0; i < lista->size(); i++)
@@ -163,9 +162,9 @@ public:
 	}
 
 	void mandaraarchivotxt(string nombredearchivo) {
-		string csv = "/" + nombredearchivo + ".csv";
+		string csv = nombredearchivo + ".csv";
 		string txt = nombredearchivo + ".txt";
-		archivo.open("C:/JUTTE DB" + csv);
+		archivo.open(csv);
 		string fila;
 		for (short i = 0; i < columnas.size(); i++)
 		{
@@ -214,6 +213,12 @@ public:
 		}
 		else _filtrar(nColumna, tipoFiltro);//int
 	}
+	//void delistaaarbol(int ncolumna, int tipodefiltrado) {
+	//	for (short i = 0; i < lista->size(); i++)
+	//	{
+	//		abbF->insertar(this->lista->obtenerElemento(i),;
+	//	}
+	//}
 	void _filtrar(int nColumna, int opcionDeFiltrado, string valor = "", int ncolumna = 1, int opcionDeFiltrado1 = 1) {
 		//incluir el "Mayor que todo" y el menor que todo
 		this->lista = new CLista<vector<string>*>();

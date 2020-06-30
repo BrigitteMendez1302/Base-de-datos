@@ -80,7 +80,6 @@ public:
 	}
 private:
 	CBasededatos *basededatos;
-	string paracolumna;
 	
 	//Fase 1
 
@@ -382,8 +381,6 @@ private:
 	}
 
 	//Fse 4
-
-
 	void modificar_Tabla(short n) {
 		system("cls");
 		cout << "\t" << this->basededatos->gettablainpos(n - 1)->getnombredelatabla() << endl<<endl;
