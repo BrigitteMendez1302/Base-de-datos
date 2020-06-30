@@ -38,6 +38,9 @@ public:
 	CLista<vector<string>*>* getlista() {
 		return this->lista;
 	}
+	vector<CColumna*> getcolumnas() {
+		return this->columnas;
+	}
 	int getcantidaddecolumnas() {
 		return this->cantidaddecolumnas;
 	}
@@ -211,14 +214,14 @@ public:
 		}
 		else _filtrar(nColumna, tipoFiltro);//int
 	}
-	//void delistaaarbol(int ncolumna, int tipodefiltrado) {
+	//void delistaaarbol(int ncolumna, int tipodefiltrado, function <bool(vector<string>*,vector<string>*)>criterio) {
 	//	for (short i = 0; i < lista->size(); i++)
 	//	{
-	//		abbF->insertar(this->lista->obtenerElemento(i),;
+	//		abbF->insertar(this->lista->obtenerElemento(i),criterio);
 	//	}
 	//}
+	
 	void _filtrar(int nColumna, int opcionDeFiltrado, string valor = "", int ncolumna = 1, int opcionDeFiltrado1 = 1) {
-		//incluir el "Mayor que todo" y el menor que todo
 		this->lista = new CLista<vector<string>*>();
 		//1
 		auto mayorQue = [=](vector<string>* a)->void {

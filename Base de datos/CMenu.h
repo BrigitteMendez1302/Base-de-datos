@@ -407,7 +407,14 @@ private:
 
 	void filtrar_Tabla(short n) {
 		system("cls");
-		short cantidad=1;
+		short cantidad = 1;
+		cout << "Cuántas columnas desea filtrar : ";
+		while (true)
+		{
+			cin >> cantidad;
+			if (cantidad == 1 || cantidad == 2)break;
+		}
+		cout << endl;
 		cout << "Cuál es el criterio con el que filtrará esta vez\n\n";
 		cout << "EXCLUSIVAMENTE PARA COLUMNAS DE NÚMEROS\n\n";
 		cout << "a. Deseo ver el registro del mayor elemento\n";
@@ -552,7 +559,6 @@ private:
 		cin >> nombre;
 		cout << "\nCreando columna en la tabla...\n";
 		this->basededatos->gettablainpos(quetablaes-1)->agregarcolumna(n,nombre);
-
 		cout << "\nCreación de columna completa.\n\n";
 		cout << "Presione B para regresar...";
 		char opcion = ' ';

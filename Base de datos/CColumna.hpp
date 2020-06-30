@@ -42,6 +42,12 @@ public:
 	void setmisdatos(vector<string>* misdatos) {
 		this->misdatos = misdatos;
 	}
+	void llenacolumna(int hastadonde) {
+		for (short i = 0; i < hastadonde; i++)
+		{
+			misdatos->at(i)="0";
+		}
+	}
 	friend class CTabla;
 };
 #endif
