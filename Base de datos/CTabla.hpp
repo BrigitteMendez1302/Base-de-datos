@@ -2,9 +2,7 @@
 #define __CTABLA_HPP__
 #include "CColumna.hpp"
 #include "CArbol.hpp"
-#include <iostream>
 #include <fstream>
-using namespace std;
 
 class CTabla {
 	int cantidaddecolumnas, cantidaddecolumnasesp;

@@ -1,8 +1,6 @@
 #ifndef __CBASEDEDATOS_HPP__
 #define __CBASEDEDATOS_HPP__
 #include "CTabla.hpp"
-#include <vector>
-using namespace std;
 class CBasededatos {
 private:
 	vector<CTabla*> tablas;
@@ -47,6 +45,4 @@ public:
 		delete tablaauxiliarnodefinida;
 	}
 };
-
 #endif
-//disenowebakus.net / tipos - de - datos - mysql.php

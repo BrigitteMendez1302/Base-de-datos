@@ -16,6 +16,10 @@ class CArbolvsl
 			izquierda = derecha = nullptr;
 			h = 0;
 		}
+		~CNodovsl() {
+			delete izquierda;
+			delete derecha;
+		}
 	};
 	CNodovsl<G> * raiz;
 	long long cantidad;
@@ -77,19 +81,18 @@ class CArbolvsl
 	}
 
 	void balance(CNodovsl<G>*& node) {
-		//as an AVL
 		int hl = _altura(node->izquierda);
 		int hr = _altura(node->derecha);
 		int dif = hr - hl;
-		if (dif > 1) {//pesado a la derecha
+		if (dif > 1) {
 			int hrr = _altura(node->derecha->derecha);
 			int hrl = _altura(node->derecha->izquierda);
-			if (hrl > hrr) {//zig zag
+			if (hrl > hrr) {
 				_rotacionder(node->derecha->izquierda, node->derecha, node->derecha);
 			}
 			_rotacionizq(node, node->derecha, node);
 		}
-		else if (dif < -1) {//pesado a la izquierda
+		else if (dif < -1) {
 			int hlr = _altura(node->izquierda->derecha);
 			int hll = _altura(node->izquierda->izquierda);
 			if (hll < hlr) {
@@ -100,7 +103,6 @@ class CArbolvsl
 		}
 	}
 	void _agregar(CNodovsl<G>*& node, G& value, function<bool(G, G)> criterio) {
-		//add BST
 		if (node == nullptr) {
 			node = new CNodovsl<G>(value);
 			++cantidad;
@@ -114,7 +116,6 @@ class CArbolvsl
 
 		balance(node);
 		node->h = _altura(node);
-
 	}
 	void _guardarDatosEnLista(CNodovsl<G>* nodo, CLista<G>*& lista) {
 		if (nodo == nullptr)return;
@@ -125,16 +126,16 @@ class CArbolvsl
 		}
 	}
 public:
-
 	CArbolvsl() {
 		raiz = nullptr;
 		this->cantidad = 0;
 	}
-
+	~CArbolvsl() {
+		delete this->raiz;
+	}
 	void eliminarTodo() {
 		_eliminarTodo(raiz);
 	}
-
 	void enorden(function <void(G)>criterio_impresion) {
 		_enOrden(raiz, criterio_impresion);
 	}
@@ -142,7 +143,6 @@ public:
 	void insertar(G value, function<bool(G, G)> criterio) {
 		_agregar(raiz, value, criterio);
 	}
-
 	int Altura() {
 		return _altura(raiz);
 	}
@@ -158,7 +158,6 @@ public:
 	void buscarMenor(function <void(G)>criterio_impresion) {
 		_buscarMenor(criterio_impresion);
 	}
-
 };
 
 #endif

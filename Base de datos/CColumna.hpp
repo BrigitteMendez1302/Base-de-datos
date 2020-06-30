@@ -15,6 +15,10 @@ public:
 		this->cant = 0;
 		this->nombre = nombre;
 	}
+	~CColumna() {
+		misdatos->clear();
+		delete misdatos;
+	}
 	int getmitipodedato() {
 		return this->mitipodedato;
 	}
@@ -39,6 +43,5 @@ public:
 		this->misdatos = misdatos;
 	}
 	friend class CTabla;
-	friend class Database;
 };
 #endif

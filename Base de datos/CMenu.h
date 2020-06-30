@@ -80,7 +80,6 @@ public:
 	}
 private:
 	CBasededatos *basededatos;
-	
 	//Fase 1
 
 	void agregar_Nueva_Tabla() {
@@ -422,13 +421,13 @@ private:
 		cout << "h. Deseo ver el registro del/de los elementos que contengan el caracter que yo ingrese\n";
 		cout << "i. Deseo ver el registro del/de los elementos que no contengan el caracter que yo ingrese\n\n";
 		cout << "Ingrese la letra de la opcion quec desee ejecutar o\n";
-		cout << "Presione B para regresar...\n";
+		cout << "Presione X para regresar...\n";
 		char opcion = ' ';
 		while (true)
 		{
 			cin >> opcion;
 			if (opcion == 'a' || opcion == 'b' || opcion == 'c' || opcion == 'd' || opcion == 'e' ||
-				opcion == 'f' || opcion == 'g' || opcion=='h' || opcion=='i'|| opcion == 'B' || opcion == 'b')break;
+				opcion == 'f' || opcion == 'g' || opcion=='h' || opcion=='i'|| opcion == 'X' || opcion == 'x')break;
 		}
 		switch (opcion)
 		{
@@ -441,7 +440,7 @@ private:
 		case 'g':	filtrar_Tabla_Por_Criterio(n,5, cantidad); break;
 		case 'h':   filtrar_Tabla_Por_Criterio(n,6, cantidad); break;
 		case 'i':   filtrar_Tabla_Por_Criterio(n,7, cantidad); break;
-		case 'B' || 'b':
+		case 'x' || 'X':
 			break;
 		default:
 			break;
@@ -493,10 +492,7 @@ private:
 	void agregar_Fila_O_Registro(int numtabla) {
 		system("cls");
 		cout << "\n\t\tAgregar fila o nuevo registro a la tabla\n\n";
-		//crear un objeto CRegitro o Cfila 
-		//obtener numero de columnas de la tabla
 		short n = basededatos->gettablainpos(numtabla - 1)->getcantidaddecolumnas();
-		//una varible temporal
 		string temp;
 		this->numvecesquepuedesvisualizar = 0;
 		basededatos->gettablainpos(numtabla - 1)->destructordatosdelatabla();
