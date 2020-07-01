@@ -360,7 +360,7 @@ private:
 		cout << "Recordatorio:\n\n";
 		cout << "El archivo que generará este programa, separará las columnas por una ',' y las filas por un '\\n'.\n\n";
 		cout << "Transfiriendo datos...\n";
-		cout << "Qué tabla desea filtrar?\n\n";
+		cout << "Qué tabla desea exportar?\n\n";
 		for (short i = 0; i < basededatos->getcantidaddetablas(); i++)
 		{
 			cout << i + 1 << ") Tabla " << i + 1 << " : " << basededatos->gettablainpos(i)->getnombredelatabla() << " \n";
@@ -368,7 +368,7 @@ private:
 		cout << "Ingrese el número de tabla que desea exportar o\n";cin >> opc;
 		this->basededatos->gettablainpos(opc-1)->mandaraarchivotxt(nombrearchivo);
 		cout << "Tabla pasada a texto plano con exito.\n";
-		cout << "Ubicación: Carpeta JUTTE en el disco D\n\n";
+		cout << "Ubicación: Carpeta de este proyecto \n\n";
 		cout << "Presione B para regresar...\n";
 		char opcion;
 		while (true)
@@ -408,13 +408,6 @@ private:
 	void filtrar_Tabla(short n) {
 		system("cls");
 		short cantidad = 1;
-		cout << "Cuántas columnas desea filtrar : ";
-		while (true)
-		{
-			cin >> cantidad;
-			if (cantidad == 1 || cantidad == 2)break;
-		}
-		cout << endl;
 		cout << "Cuál es el criterio con el que filtrará esta vez\n\n";
 		cout << "EXCLUSIVAMENTE PARA COLUMNAS DE NÚMEROS\n\n";
 		cout << "a. Deseo ver el registro del mayor elemento\n";
