@@ -12,12 +12,10 @@ auto lambda0 = [=](vector<string>* a) {
 
 class CMenu
 {
-	int numvecesquepuedesvisualizar;
 public:
 	CMenu() {
 		setlocale(LC_ALL, "Spanish");
 		basededatos = new CBasededatos();
-		this->numvecesquepuedesvisualizar = 0;
 		registroinicializado();
 		main();
 	}
@@ -189,14 +187,14 @@ private:
 	}
 	void visualizar_Tabla_Completa(short n) {
 		system("cls");
-		numvecesquepuedesvisualizar++;
+		basededatos->gettablainpos(n - 1)->setnumerodevecesquesepuedevisualizar();
 		if (n-1 >= 0 && n-1 <= basededatos->gettablainpos(n-1)->getcantidaddecolumnas()) {
 			cout <<"\t" << basededatos->gettablainpos(n-1)->getnombredelatabla() << endl<<endl;
 			for (short i = 0; i < basededatos->gettablainpos(n-1)->getcantidaddecolumnas(); i++)
 			{
 				basededatos->gettablainpos(n - 1)->getcolumnainpos(i)->getminombre();
 			}
-			if (this->numvecesquepuedesvisualizar == 1) basededatos->gettablainpos(n - 1)->indexar();
+			if (this->basededatos->gettablainpos(n - 1)->getnumerodevecesquesepuedevisuazliar() == 1) basededatos->gettablainpos(n - 1)->indexar();
 			basededatos->gettablainpos(n-1)->mostrarregistros();
 			cout << endl;
 	}
@@ -494,13 +492,16 @@ private:
 		cout << "\n\t\tAgregar fila o nuevo registro a la tabla\n\n";
 		short n = basededatos->gettablainpos(numtabla - 1)->getcantidaddecolumnas();
 		string temp;
-		this->numvecesquepuedesvisualizar = 0;
-		basededatos->gettablainpos(numtabla - 1)->destructordatosdelatabla();
+		this->basededatos->gettablainpos(numtabla - 1)->aceroveces();
+		if ((basededatos->gettablainpos(numtabla - 1)->getprimeravez())==true && (basededatos->gettablainpos(numtabla-1)->getyaindexe())==true) {
+			basededatos->gettablainpos(numtabla - 1)->destructordatosdelatabla();
+		}
 		for (size_t i = 0; i < n; i++)
 		{
 			cout << "Dato para la columna " << basededatos->gettablainpos(numtabla - 1)->getcolumnainpos(i)->getminombre() << ":\n";
 			cin >> temp;
 			basededatos->gettablainpos(numtabla - 1)->getcolumnainpos(i)->agregardato(temp);
+			basededatos->gettablainpos(numtabla - 1)->setprimeravez(true);
 			temp = "";
 		}
 		cout << "Agregando registro a la tabla...\n\n";
@@ -545,8 +546,8 @@ private:
 	}
 
 	void agregar_Columna_Tipo(int n, int quetablaes) {
-		this->numvecesquepuedesvisualizar = 0;
-		basededatos->gettablainpos(quetablaes - 1)->destructordatosdelatabla();
+		this->basededatos->gettablainpos(quetablaes - 1)->aceroveces();
+		//basededatos->gettablainpos(quetablaes - 1)->destructordatosdelatabla();
 		string nombre = "";
 		cout << "Ingrese nombre de la columna:\n";
 		cin >> nombre;

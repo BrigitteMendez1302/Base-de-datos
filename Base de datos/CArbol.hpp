@@ -2,52 +2,53 @@
 #define CARBOL_HPP
 #include "CListadoble.hpp"
 template <class G>
-class CArbolvsl
+class CArbolavl
 {
 	template <class G>
-	class CNodovsl {
+	class CNodoavl {
 	public:
 		G valor;
-		CNodovsl<G>* izquierda;
-		CNodovsl<G>* derecha;
+		CNodoavl<G>* izquierda;
+		CNodoavl<G>* derecha;
 		int h;
-		CNodovsl(G v) {
+		CNodoavl(G v) {
 			this->valor = v;
 			izquierda = derecha = nullptr;
 			h = 0;
 		}
-		~CNodovsl() {
+		~CNodoavl() {
 			delete izquierda;
 			delete derecha;
 		}
 	};
-	CNodovsl<G> * raiz;
+	CNodoavl<G> * raiz;
 	long long cantidad;
 
-	void _eliminarTodo(CNodovsl<G>* node) {
+	void _eliminarTodo(CNodoavl<G>* node) {
 		if (node != nullptr) {
 			_eliminarTodo(node->izquierda);
 			_eliminarTodo(node->derecha);
+			balance(node);
 			delete node;
 		}
 	}
 
 	void _buscarMayor(function <void(G)>criterio_impresion) {
-		CNodovsl<G>* mayor = raiz;
+		CNodoavl<G>* mayor = raiz;
 		while (mayor->derecha != nullptr) {
 			mayor = mayor->derecha;
 		}
 		criterio_impresion(mayor->valor);
 	}
 	void _buscarMenor(function <void(G)>criterio_impresion) {
-		CNodovsl<G>* menor = raiz;
+		CNodoavl<G>* menor = raiz;
 		while (menor->izquierda != nullptr) {
 			menor = menor->izquierda;
 		}
 		criterio_impresion(menor->valor);
 	}
 
-	void _enOrden(CNodovsl<G>* nodo, function<void(G)> criterio_impresion) {
+	void _enOrden(CNodoavl<G>* nodo, function<void(G)> criterio_impresion) {
 		if (nodo != nullptr) {
 			_enOrden(nodo->izquierda, criterio_impresion);
 			criterio_impresion(nodo->valor);
@@ -55,7 +56,7 @@ class CArbolvsl
 		}
 	}
 
-	void _rotacionizq(CNodovsl<G>* x, CNodovsl<G>* y, CNodovsl<G>*&r) {
+	void _rotacionizq(CNodoavl<G>* x, CNodoavl<G>* y, CNodoavl<G>*&r) {
 		r = y;
 		x->derecha = y->izquierda;
 		x->h = _altura(x);
@@ -63,7 +64,7 @@ class CArbolvsl
 		y->h = _altura(r);
 	}
 
-	void _rotacionder(CNodovsl<G>* x, CNodovsl<G>* y, CNodovsl<G>*&r) {
+	void _rotacionder(CNodoavl<G>* x, CNodoavl<G>* y, CNodoavl<G>*&r) {
 		r = x;
 		y->izquierda = x->derecha;
 		y->h = _altura(y);
@@ -71,7 +72,7 @@ class CArbolvsl
 		x->h = _altura(r);
 	}
 
-	int _altura(CNodovsl<G>* node) {
+	int _altura(CNodoavl<G>* node) {
 		if (node == nullptr) {
 			return -1;
 		}
@@ -80,7 +81,7 @@ class CArbolvsl
 		return 1 + (hl > hr ? hl : hr);
 	}
 
-	void balance(CNodovsl<G>*& node) {
+	void balance(CNodoavl<G>*& node) {
 		int hl = _altura(node->izquierda);
 		int hr = _altura(node->derecha);
 		int dif = hr - hl;
@@ -102,9 +103,9 @@ class CArbolvsl
 
 		}
 	}
-	void _agregar(CNodovsl<G>*& node, G& value, function<bool(G, G)> criterio) {
+	void _agregar(CNodoavl<G>*& node, G& value, function<bool(G, G)> criterio) {
 		if (node == nullptr) {
-			node = new CNodovsl<G>(value);
+			node = new CNodoavl<G>(value);
 			++cantidad;
 		}
 		else if (criterio(value, node->valor)) {
@@ -117,7 +118,7 @@ class CArbolvsl
 		balance(node);
 		node->h = _altura(node);
 	}
-	void _guardarDatosEnLista(CNodovsl<G>* nodo, CLista<G>*& lista) {
+	void _guardarDatosEnLista(CNodoavl<G>* nodo, CLista<G>*& lista) {
 		if (nodo == nullptr)return;
 		else {
 			_guardarDatosEnLista(nodo->izquierda, lista);
@@ -126,11 +127,11 @@ class CArbolvsl
 		}
 	}
 public:
-	CArbolvsl() {
+	CArbolavl() {
 		raiz = nullptr;
 		this->cantidad = 0;
 	}
-	~CArbolvsl() {
+	~CArbolavl() {
 		delete this->raiz;
 	}
 	void eliminarTodo() {
@@ -139,7 +140,6 @@ public:
 	void enorden(function <void(G)>criterio_impresion) {
 		_enOrden(raiz, criterio_impresion);
 	}
-
 	void insertar(G value, function<bool(G, G)> criterio) {
 		_agregar(raiz, value, criterio);
 	}

@@ -12,7 +12,9 @@ class CTabla {
 	string nombredelatabla;
 	ofstream archivo;
 	CLista<vector<string>*>* lista;
-
+	bool primeravez;
+	bool yaindexe;
+	int numerodevecesquesepuedevisualizar;
 public:
 	void agregarcolumna(int mitipodedato, string nombre) {
 		columnas.push_back(new CColumna(mitipodedato, nombre));
@@ -68,6 +70,7 @@ public:
 	}
 	void indexar() {
 		vector<string>* fila;
+		this->yaindexe = true;
 		inicializadatosdelatabla();
 		cout << "Cantidad de datos de la columna : " << columnas.at(0)->misdatos->size() << endl;
 		cout << "Cantidad de columnas : " << columnas.size() << endl << endl;
@@ -214,12 +217,6 @@ public:
 		}
 		else _filtrar(nColumna, tipoFiltro);//int
 	}
-	//void delistaaarbol(int ncolumna, int tipodefiltrado, function <bool(vector<string>*,vector<string>*)>criterio) {
-	//	for (short i = 0; i < lista->size(); i++)
-	//	{
-	//		abbF->insertar(this->lista->obtenerElemento(i),criterio);
-	//	}
-	//}
 	
 	void _filtrar(int nColumna, int opcionDeFiltrado, string valor = "", int ncolumna = 1, int opcionDeFiltrado1 = 1) {
 		this->lista = new CLista<vector<string>*>();
@@ -302,10 +299,31 @@ public:
 		default: break;
 		}
 	}
+	bool getprimeravez() {
+		return this->primeravez;
+	}
+	bool getyaindexe() {
+		return this->yaindexe;
+	}
+	void setprimeravez(bool primeravez) {
+		this->primeravez = primeravez;
+	}
+	int getnumerodevecesquesepuedevisuazliar() {
+		return this->numerodevecesquesepuedevisualizar;
+	}
+	void setnumerodevecesquesepuedevisualizar() {
+		numerodevecesquesepuedevisualizar++;
+	}
+	void aceroveces() {
+		this->numerodevecesquesepuedevisualizar = 0;
+	}
 	CTabla(string nombre) {
 		this->cantidaddecolumnas = 0;
 		this-> cantidaddecolumnasesp = 0;
 		this->nombredelatabla = nombre;
+		this->primeravez = false;
+		this->yaindexe = false;
+		this->numerodevecesquesepuedevisualizar = 0;
 	}
 	~CTabla() {
 		columnas.clear();
